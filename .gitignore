@@ -1,4 +1,6 @@
 objs
 fdf
 initial-resources
-lib
+lib/libft/*.o
+lib/libft/libft.a
+lib/minilibx/objs/*.a

@@ -22,19 +22,18 @@ OBJS=./objs/$(SRC:.c=.o)
 ODIR=objs
 
 $(ODIR)/%.o: %.c
-	$(CC) $(CFLAGS) -c $^ -o $@ -I $(LIBX)
+	$(CC) $(CFLAGS) -c $^ -o $@ -I $(LIBX) -g
 
 all: $(NAME)
 
 $(NAME): $(LIBXA) $(LIBFTA) $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -L $(LIBX) -lmlx -lXext -lX11 -L $(LIBFT) -lft -o $(NAME) -I $(LIBX) -I $(LIBFT)
+	$(CC) $(CFLAGS) $(OBJS) -L $(LIBX) -lmlx -lXext -lX11 -lm -L $(LIBFT) -lft -o $(NAME) -I $(LIBX) -I $(LIBFT) -g
 
 $(LIBXA): $(LIBX)
 	$(MAKE) -C $(LIBX)
 
 $(LIBFTA): $(LIBFT)
 	$(MAKE) -C $(LIBFT)
-	$(MAKE) clean -C $(LIBFT)
 
 $(LIBX):
 	if [ ! -d $(LIBX) ]; then\
