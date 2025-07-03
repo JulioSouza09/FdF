@@ -22,26 +22,24 @@ OBJS=./objs/$(SRC:.c=.o)
 ODIR=objs
 
 $(ODIR)/%.o: %.c
-	$(CC) $(CFLAGS) -c $^ -o $@ -I $(LIBX) -g
+	$(CC) $(CFLAGS) -c $^ -o $@ -I $(LIBX) -I $(LIBFT) -g
 
 all: $(NAME)
 
-$(NAME): $(LIBXA) $(LIBFTA) $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -L $(LIBX) -lmlx -lXext -lX11 -lm -L $(LIBFT) -lft -o $(NAME) -I $(LIBX) -I $(LIBFT) -g
-
-$(LIBXA): $(LIBX)
-	$(MAKE) -C $(LIBX)
-
-$(LIBFTA): $(LIBFT)
+$(NAME): $(OBJS)
 	$(MAKE) -C $(LIBFT)
+	$(MAKE) -C $(LIBX)
+	$(CC) $(CFLAGS) $(OBJS) -L $(LIBX) -lmlx -lXext -lX11 -lm -L $(LIBFT) -lft -o $(NAME) 
 
-$(LIBX):
-	if [ ! -d $(LIBX) ]; then\
-		git clone git@github.com:42paris/minilibx-linux.git $(LIBX); rm -rf $(LIBX)/.git; fi
+mlx:
+	rm -rf $(LIBX)
+	git clone git@github.com:42paris/minilibx-linux.git $(LIBX)
+	rm -rf $(LIBX)/.git
 
-$(LIBFT):
-	if [ ! -d $(LIBFT) ]; then\
-		git clone git@github.com:JulioSouza09/libft.git $(LIBFT); rm -rf $(LIBX)/.git; fi
+libft:
+	rm -rf $(LIBFT)
+	git clone git@github.com:JulioSouza09/libft.git $(LIBFT)
+	rm -rf $(LIBX)/.git
 
 libclean:
 	rm -rf $(LIBX) $(LIBFT)
