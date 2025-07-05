@@ -6,7 +6,7 @@
 /*   By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:41:58 by jcesar-s          #+#    #+#             */
-/*   Updated: 2025/06/26 16:36:30 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/07/05 13:42:19 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,21 @@
 #include "libft.h"
 #include "fdf.h"
 
-#define X_START 400
-#define Y_START 200
-#define OFFSET 20
+#define X_START 800
+#define Y_START 100
+#define OFFSET 30
+#define WIN_WIDTH 1600
+#define WIN_HEIGHT 900
 
+void	ft_pixel_put(t_data *data, int x, int y, int color)
+{
+	char	*dst;
+
+	if (x >= WIN_WIDTH || x < 0 || y >= WIN_HEIGHT || y < 0)
+		return ;
+	dst = data->addr + (y * data->line_len) + (x * (data->bits_per_pixel / 8));
+	*(unsigned int *)dst = color;
+}
 
 void	init_point(t_point *point, int x, int y)
 {
@@ -46,7 +57,7 @@ void	init_grid(t_point **array, int width, int height)
 		while (j < width)
 		{
 			init_point(&array[i][j], start.x, start.y);
-			array[i][j].y -= (array[i][j].z * 100);
+			array[i][j].y -= (array[i][j].z * 4);
 			start.x += OFFSET + 5;
 			start.y += (OFFSET / 2) + 10;
 			++j;
@@ -57,7 +68,7 @@ void	init_grid(t_point **array, int width, int height)
 	}
 }
 
-void	draw_line(void *mlx, void *win, int x_start, int y_start, int x_end, int y_end)
+void	draw_line(int x_start, int y_start, int x_end, int y_end, t_data *img_data)
 {
 	float	delta_x;
 	float	delta_y;
@@ -81,16 +92,15 @@ void	draw_line(void *mlx, void *win, int x_start, int y_start, int x_end, int y_
 	while (pixel > x_end)
 	{
 		y = (delta_y / delta_x) * (pixel - x_start) + y_start;
-		mlx_pixel_put(mlx, win, pixel, y, 0xFFFFFF);
-		++pixel;
+		ft_pixel_put(img_data, pixel, y, 0xFFFFFF);
+		--pixel;
 	}
 	while (pixel < x_end)
 	{
 		y = (delta_y / delta_x) * (pixel - x_start) + y_start;
-		mlx_pixel_put(mlx, win, pixel, y, 0xFFFFFF);
+		ft_pixel_put(img_data, pixel, y, 0xFFFFFF);
 		++pixel;
 	}
-
 }
 
 void	print_grid(void *mlx, void *win_ptr, t_point **array, int width, int height)
@@ -123,11 +133,13 @@ void	free_matrix(t_point **matrix, int position)
 static int	count_eol(char	*str)
 {
 	int	i;
+	int	j;
 
 	i = 0;
-	while (*str)
+	j = 0;
+	while (str[j])
 	{
-		if (*str++ == '\n')
+		if (str[j++] == '\n')
 			++i;
 	}
 	return (i);
@@ -138,7 +150,7 @@ static int	count_lines(char *filename)
 	int		fd;
 	int		bytes_read;
 	int		count;
-	char	buffer[1024];
+	char	buffer[1025];
 
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
@@ -153,6 +165,7 @@ static int	count_lines(char *filename)
 		bytes_read = read(fd, buffer, 1024);
 		if (bytes_read == 0)
 			break ;
+		buffer[bytes_read] = 0;
 		count += count_eol(buffer);
 	}
 	close(fd);
@@ -174,13 +187,11 @@ t_point	**get_map(int n_lines, int fd, int *w)
 	while (i < n_lines)
 	{
 		line = ft_split(get_next_line(fd), ' ');;
-		*w = count_matrix(line);
-		result[i] = get_line_values(line);	
-		if (!result[i])
-		{
-			free_matrix(result, i);
-			exit(3);
-		}
+		if (i == 0)
+			*w = count_matrix(line);
+		ft_printf("*w = %d\n", *w);
+		if (line)
+			result[i] = get_line_values(line);	
 		++i;
 	}
 	return (result);
@@ -191,7 +202,7 @@ int	count_matrix(char **matrix)
 	int	i;
 
 	i = 0;
-	while (matrix[i] != NULL)
+	while (matrix && matrix[i] != NULL)
 		++i;
 	return (i);
 }
@@ -223,6 +234,7 @@ int	main(int argc, char **argv)
 	int		fd;
 	int		lines;
 	int		count;
+	t_data	img;
 
 	if (argc < 2)
 	{
@@ -237,28 +249,29 @@ int	main(int argc, char **argv)
 		return (errno);
 	}
 	grid = get_map(lines, fd, &count);
-	ft_printf("%d\n", lines); 
 	init = mlx_init();
-	win = mlx_new_window(init, 1000, 1000, "Test");
+	win = mlx_new_window(init, WIN_WIDTH, WIN_HEIGHT, "Test");
+	ft_printf("lines = %d\n", lines);
 	init_grid(grid, count, lines);
+	img.img = mlx_new_image(init, WIN_WIDTH, WIN_HEIGHT);
+	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_len, &img.end);
 	for (int i = 0; i < lines; i++)
 	{
 		for (int j = 0; j < count - 1; j++)
 		{
-			draw_line(init, win, grid[i][j].x, grid[i][j].y, grid[i][j+1].x, grid[i][j+1].y);
+			draw_line(grid[i][j].x, grid[i][j].y, grid[i][j+1].x, grid[i][j+1].y, &img);
 
 		}
-		ft_printf("\n");
 	}
 	for (int i = 0; i < count; i++)
 	{
 		for (int j = 0; j < lines - 1; j++)
 		{
-			draw_line(init, win, grid[j][i].x, grid[j][i].y, grid[j+1][i].x, grid[j+1][i].y);
+			draw_line(grid[j][i].x, grid[j][i].y, grid[j+1][i].x, grid[j+1][i].y, &img);
 		}
-		ft_printf("\n");
 	}
-	print_grid(init, win, grid, count, lines);
+	mlx_put_image_to_window(init, win, img.img, 0, 0);
+	//print_grid(init, win, grid, count, lines);
 	// draw_line(init, win, 300, 125, 250, 150);
 	mlx_loop(init);
 	free(grid);
