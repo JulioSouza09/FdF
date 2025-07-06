@@ -6,7 +6,7 @@
 #    By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/26 13:02:42 by jcesar-s          #+#    #+#              #
-#    Updated: 2025/07/04 12:18:12 by jcesar-s         ###   ########.fr        #
+#    Updated: 2025/07/05 14:06:58 by jcesar-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,7 @@ mlx:
 libft:
 	rm -rf $(LIBFT)
 	git clone git@github.com:JulioSouza09/libft.git $(LIBFT)
-	rm -rf $(LIBX)/.git
+	rm -rf $(LIBFT)/.git
 
 libclean:
 	rm -rf $(LIBX) $(LIBFT)

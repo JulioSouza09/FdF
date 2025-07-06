@@ -6,7 +6,7 @@
 /*   By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:41:58 by jcesar-s          #+#    #+#             */
-/*   Updated: 2025/07/05 13:42:19 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/07/05 17:43:01 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 
 #define X_START 800
 #define Y_START 100
-#define OFFSET 30
+#define OFFSET 20
 #define WIN_WIDTH 1600
 #define WIN_HEIGHT 900
 
@@ -57,13 +57,13 @@ void	init_grid(t_point **array, int width, int height)
 		while (j < width)
 		{
 			init_point(&array[i][j], start.x, start.y);
-			array[i][j].y -= (array[i][j].z * 4);
-			start.x += OFFSET + 5;
-			start.y += (OFFSET / 2) + 10;
+			array[i][j].y -= round((array[i][j].z * (OFFSET / 7)));
+			start.x += round(OFFSET + (OFFSET * 0.16));
+			start.y += round((OFFSET / 2) + ((OFFSET / 2) * 0.75));
 			++j;
 		}
-		start.x = X_START - ((OFFSET * (i + 1)) + (12 * (i+1)));
-		start.y = Y_START + ((OFFSET / 2) * (i + 1)) + (17 * (i+1));
+		start.x = X_START - ((OFFSET * (i + 1)) + ((OFFSET * 0.4)* (i+1)));
+		start.y = Y_START + ((OFFSET / 2) * (i + 1)) + ((OFFSET * 0.57) * (i+1));
 		++i;
 	}
 }
