@@ -6,7 +6,7 @@
 /*   By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:41:58 by jcesar-s          #+#    #+#             */
-/*   Updated: 2025/07/05 17:43:01 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/07/10 12:34:04 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,21 @@
 
 #define X_START 800
 #define Y_START 100
-#define OFFSET 20
+#define OFFSET 1.5
 #define WIN_WIDTH 1600
 #define WIN_HEIGHT 900
+
+typedef struct s_test
+{
+	t_point	**grid;
+	int		lines;
+	int		count;
+	t_data	img;
+	void	*init;
+	void	*win;
+	int		offset;
+}	t_test;
+
 
 void	ft_pixel_put(t_data *data, int x, int y, int color)
 {
@@ -37,13 +49,67 @@ void	ft_pixel_put(t_data *data, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
+void	draw_line(int x_start, int y_start, int x_end, int y_end, t_data *img_data)
+{
+//	float	delta_x;
+//	float	delta_y;
+//	float	 y;
+//	int		pixel;
+//	int		tmp;
+//
+//	if (x_end < x_start)
+//	{
+//		tmp = x_start;
+//		x_start = x_end;
+//		x_end = tmp;
+//
+//		tmp = y_start;
+//		y_start = y_end;
+//		y_end = tmp;
+//	}
+//	delta_x = x_end - x_start;
+//	delta_y = y_end - y_start;
+//	pixel = x_start;
+//	while (pixel > x_end)
+//	{
+//		y = (delta_y / delta_x) * (pixel - x_start) + y_start;
+//		ft_pixel_put(img_data, pixel, y, 0xFFFFFF);
+//		--pixel;
+//	}
+//	while (pixel < x_end)
+//	{
+//		y = (delta_y / delta_x) * (pixel - x_start) + y_start;
+//		ft_pixel_put(img_data, pixel, y, 0xFFFFFF);
+//		++pixel;
+//	}
+	int vx;
+	int vy;
+	int len;
+	int i;
+	double angle;
+	int x;
+	int y;
+
+	vx = x_end - x_start;
+	vy = y_end - y_start;
+	len = sqrt(pow(vx, 2) + pow(vy, 2));
+	angle = atan2(vy, vx);
+	i = -1;
+	while (++i < len)
+	{
+		x = x_start + cos(angle) * i;
+		y = y_start + sin(angle) * i;
+		ft_pixel_put(img_data, x, y, 0xFFFFFF);
+	}
+}
+
 void	init_point(t_point *point, int x, int y)
 {
 	point->x = x;
 	point->y = y;
 }
 
-void	init_grid(t_point **array, int width, int height)
+void	init_grid(t_point **array, int width, int height, float offset, t_data *test)
 {
 	int	i;
 	int	j;
@@ -51,55 +117,25 @@ void	init_grid(t_point **array, int width, int height)
 
 	i = 0;
 	init_point(&start, X_START, Y_START);
+	init_point(&array[0][0], start.x, start.y);
 	while (i < height)
 	{
 		j = 0;
 		while (j < width)
 		{
-			init_point(&array[i][j], start.x, start.y);
-			array[i][j].y -= round((array[i][j].z * (OFFSET / 7)));
-			start.x += round(OFFSET + (OFFSET * 0.16));
-			start.y += round((OFFSET / 2) + ((OFFSET / 2) * 0.75));
+			array[i][j].y -= round((array[i][j].z * (offset / 7)));
+			start.x += round(offset + (offset * 0.16));
+			start.y += round((offset / 2) + ((offset / 2) * 0.75));
+			init_point(&array[i][j], round(start.x * 5), round(start.y * 5));
+			if (j >= 1)
+				draw_line(array[i][j - 1].x, array[i][j - 1].y, array[i][j].x, array[i][j].y, test);
+			if (i >= 1)
+				draw_line(array[i - 1][j].x, array[i - 1][j].y, array[i][j].x, array[i][j].y, test);
 			++j;
 		}
-		start.x = X_START - ((OFFSET * (i + 1)) + ((OFFSET * 0.4)* (i+1)));
-		start.y = Y_START + ((OFFSET / 2) * (i + 1)) + ((OFFSET * 0.57) * (i+1));
+		start.x = X_START - ((offset * (i + 1)) + ((offset * 0.4)* (i+1)));
+		start.y = Y_START + ((offset / 2) * (i + 1)) + ((offset * 0.57) * (i+1));
 		++i;
-	}
-}
-
-void	draw_line(int x_start, int y_start, int x_end, int y_end, t_data *img_data)
-{
-	float	delta_x;
-	float	delta_y;
-	float	 y;
-	int		pixel;
-	int		tmp;
-
-	if (x_end < x_start)
-	{
-		tmp = x_start;
-		x_start = x_end;
-		x_end = tmp;
-
-		tmp = y_start;
-		y_start = y_end;
-		y_end = tmp;
-	}
-	delta_x = x_end - x_start;
-	delta_y = y_end - y_start;
-	pixel = x_start;
-	while (pixel > x_end)
-	{
-		y = (delta_y / delta_x) * (pixel - x_start) + y_start;
-		ft_pixel_put(img_data, pixel, y, 0xFFFFFF);
-		--pixel;
-	}
-	while (pixel < x_end)
-	{
-		y = (delta_y / delta_x) * (pixel - x_start) + y_start;
-		ft_pixel_put(img_data, pixel, y, 0xFFFFFF);
-		++pixel;
 	}
 }
 
@@ -189,7 +225,6 @@ t_point	**get_map(int n_lines, int fd, int *w)
 		line = ft_split(get_next_line(fd), ' ');;
 		if (i == 0)
 			*w = count_matrix(line);
-		ft_printf("*w = %d\n", *w);
 		if (line)
 			result[i] = get_line_values(line);	
 		++i;
@@ -226,11 +261,45 @@ t_point	*get_line_values(char **splited_line)
 	return (result);
 }
 
+void	connect_points(int lines, int count, t_point **grid, t_data *img)
+{
+	for (int i = 0; i < lines; i++)
+	{
+		for (int j = 0; j < count - 1; j++)
+		{
+			draw_line(grid[i][j].x, grid[i][j].y, grid[i][j+1].x, grid[i][j+1].y, img);
+
+		}
+	}
+	for (int i = 0; i < count; i++)
+	{
+		for (int j = 0; j < lines - 1; j++)
+		{
+			draw_line(grid[j][i].x, grid[j][i].y, grid[j+1][i].x, grid[j+1][i].y, img);
+		}
+	}
+}
+
+int	zoom_in(int keycode, int x, int y, t_test *grid)
+{
+	static float	a;
+	int				sum;
+
+	sum = x + y;
+	ft_printf("keycode=%d sum=%d ", sum, keycode);
+	ft_memset(grid->img.addr, 0, WIN_WIDTH * WIN_HEIGHT * (grid->img.bits_per_pixel / 8));
+	init_grid(grid->grid, grid->count, grid->lines, grid->offset + a, &grid->img);
+	a += 1;
+	mlx_put_image_to_window(grid->init, grid->win, grid->img.img, 0, 0);
+	return (0);
+}
+
 int	main(int argc, char **argv)
 {
 	void	*init;
 	void	*win;
 	t_point	**grid;
+	t_test	test;
 	int		fd;
 	int		lines;
 	int		count;
@@ -252,24 +321,18 @@ int	main(int argc, char **argv)
 	init = mlx_init();
 	win = mlx_new_window(init, WIN_WIDTH, WIN_HEIGHT, "Test");
 	ft_printf("lines = %d\n", lines);
-	init_grid(grid, count, lines);
 	img.img = mlx_new_image(init, WIN_WIDTH, WIN_HEIGHT);
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_len, &img.end);
-	for (int i = 0; i < lines; i++)
-	{
-		for (int j = 0; j < count - 1; j++)
-		{
-			draw_line(grid[i][j].x, grid[i][j].y, grid[i][j+1].x, grid[i][j+1].y, &img);
-
-		}
-	}
-	for (int i = 0; i < count; i++)
-	{
-		for (int j = 0; j < lines - 1; j++)
-		{
-			draw_line(grid[j][i].x, grid[j][i].y, grid[j+1][i].x, grid[j+1][i].y, &img);
-		}
-	}
+	init_grid(grid, count, lines, OFFSET, &img);
+	test.grid = grid;
+	test.lines = lines;
+	test.count = count;
+	test.img = img;
+	test.init = init;
+	test.win = win;
+	test.offset = OFFSET;
+	//connect_points(lines, count, test.grid, &img);
+	mlx_mouse_hook(win, zoom_in, &test);
 	mlx_put_image_to_window(init, win, img.img, 0, 0);
 	//print_grid(init, win, grid, count, lines);
 	// draw_line(init, win, 300, 125, 250, 150);
