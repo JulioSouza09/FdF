@@ -6,7 +6,7 @@
 /*   By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:41:58 by jcesar-s          #+#    #+#             */
-/*   Updated: 2025/07/10 12:34:04 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/07/18 17:55:12 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,12 @@
 
 #define X_START 800
 #define Y_START 100
-#define OFFSET 1.5
+#define OFFSET 1
 #define WIN_WIDTH 1600
 #define WIN_HEIGHT 900
+#define READ_BUF_SIZE 2048
+#define TRUE 1
+#define FALSE 0
 
 typedef struct s_test
 {
@@ -51,55 +54,36 @@ void	ft_pixel_put(t_data *data, int x, int y, int color)
 
 void	draw_line(int x_start, int y_start, int x_end, int y_end, t_data *img_data)
 {
-//	float	delta_x;
-//	float	delta_y;
-//	float	 y;
-//	int		pixel;
-//	int		tmp;
-//
-//	if (x_end < x_start)
-//	{
-//		tmp = x_start;
-//		x_start = x_end;
-//		x_end = tmp;
-//
-//		tmp = y_start;
-//		y_start = y_end;
-//		y_end = tmp;
-//	}
-//	delta_x = x_end - x_start;
-//	delta_y = y_end - y_start;
-//	pixel = x_start;
-//	while (pixel > x_end)
-//	{
-//		y = (delta_y / delta_x) * (pixel - x_start) + y_start;
-//		ft_pixel_put(img_data, pixel, y, 0xFFFFFF);
-//		--pixel;
-//	}
-//	while (pixel < x_end)
-//	{
-//		y = (delta_y / delta_x) * (pixel - x_start) + y_start;
-//		ft_pixel_put(img_data, pixel, y, 0xFFFFFF);
-//		++pixel;
-//	}
-	int vx;
-	int vy;
-	int len;
-	int i;
-	double angle;
-	int x;
-	int y;
+	float	delta_x;
+	float	delta_y;
+	float	 y;
+	int		pixel;
+	int		tmp;
 
-	vx = x_end - x_start;
-	vy = y_end - y_start;
-	len = sqrt(pow(vx, 2) + pow(vy, 2));
-	angle = atan2(vy, vx);
-	i = -1;
-	while (++i < len)
+	if (x_end < x_start)
 	{
-		x = x_start + cos(angle) * i;
-		y = y_start + sin(angle) * i;
-		ft_pixel_put(img_data, x, y, 0xFFFFFF);
+		tmp = x_start;
+		x_start = x_end;
+		x_end = tmp;
+
+		tmp = y_start;
+		y_start = y_end;
+		y_end = tmp;
+	}
+	delta_x = x_end - x_start;
+	delta_y = y_end - y_start;
+	pixel = x_start;
+	while (pixel > x_end)
+	{
+		y = (delta_y / delta_x) * (pixel - x_start) + y_start;
+		ft_pixel_put(img_data, pixel, y, 0x7B8FBD);
+		--pixel;
+	}
+	while (pixel < x_end)
+	{
+		y = (delta_y / delta_x) * (pixel - x_start) + y_start;
+		ft_pixel_put(img_data, pixel, y, 0x7B8FBD);
+		++pixel;
 	}
 }
 
@@ -109,33 +93,44 @@ void	init_point(t_point *point, int x, int y)
 	point->y = y;
 }
 
-void	init_grid(t_point **array, int width, int height, float offset, t_data *test)
+void	init_grid(t_point **array, int width, int height, float offset, t_data *test, t_point translate)
 {
 	int	i;
 	int	j;
 	t_point	start;
+	t_point	position;
+	t_point	tmp;
 
+	position.x = width / 2;
+	position.y = height / 2;
+	tmp.x = (WIN_WIDTH / 2) + (position.y - position.x) * (offset * 2);
+	tmp.y = (WIN_HEIGHT / 2) - (position.x + position.x) * offset;
 	i = 0;
-	init_point(&start, X_START, Y_START);
-	init_point(&array[0][0], start.x, start.y);
+	init_point(&start, tmp.x, tmp.y);
 	while (i < height)
 	{
 		j = 0;
 		while (j < width)
 		{
-			array[i][j].y -= round((array[i][j].z * (offset / 7)));
-			start.x += round(offset + (offset * 0.16));
-			start.y += round((offset / 2) + ((offset / 2) * 0.75));
-			init_point(&array[i][j], round(start.x * 5), round(start.y * 5));
+			init_point(&array[i][j], start.x + translate.x, start.y + translate.y);
+			array[i][j].y -= round((array[i][j].z) * (offset / 7));
+			//start.x += round(offset * 1.16);
+			//start.y += round((offset / 2) * 1.75);
+			start.x += offset * 2;
+			start.y += offset;
 			if (j >= 1)
 				draw_line(array[i][j - 1].x, array[i][j - 1].y, array[i][j].x, array[i][j].y, test);
 			if (i >= 1)
 				draw_line(array[i - 1][j].x, array[i - 1][j].y, array[i][j].x, array[i][j].y, test);
 			++j;
 		}
-		start.x = X_START - ((offset * (i + 1)) + ((offset * 0.4)* (i+1)));
-		start.y = Y_START + ((offset / 2) * (i + 1)) + ((offset * 0.57) * (i+1));
 		++i;
+		//start.x = round(X_START - ((offset * i) + (offset * 0.4 * i)));
+		//start.y = round(Y_START + ((offset / 2) * i) + (offset * 0.57 * i));
+		//start.x = X_START - (((offset*2) * i));
+		//start.y = Y_START + ((offset * i));
+		start.x = tmp.x - (((offset*2) * i));
+		start.y = tmp.y + ((offset * i));
 	}
 }
 
@@ -166,19 +161,28 @@ void	free_matrix(t_point **matrix, int position)
 		free(matrix[i++]);
 }
 
-static int	count_eol(char	*str)
+int	valid_suffix(char *filename)
 {
-	int	i;
-	int	j;
+	const char	*suffix = ".fdf";
+	char		*file;
 
-	i = 0;
-	j = 0;
-	while (str[j])
+	file = ft_strrchr(filename, '.');
+	if (!file || ft_strncmp(suffix, file, ft_strlen(suffix)))
+		return (0);
+	return (1);
+}
+
+int	open_file_correctly(char *filename)
+{
+	int	fd;
+
+	fd = open(filename, O_RDONLY);
+	if (fd == -1)
 	{
-		if (str[j++] == '\n')
-			++i;
+		perror("fdf");
+		exit (errno);
 	}
-	return (i);
+	return (fd);
 }
 
 static int	count_lines(char *filename)
@@ -186,49 +190,72 @@ static int	count_lines(char *filename)
 	int		fd;
 	int		bytes_read;
 	int		count;
-	char	buffer[1025];
+	char	buffer[READ_BUF_SIZE + 1];
+	int		i;
 
-	fd = open(filename, O_RDONLY);
-	if (fd == -1)
-	{
-		perror("Error");
-		exit(errno);
-	}
-	bytes_read = 1;
+	fd = open_file_correctly(filename);
 	count = 0;
-	while (bytes_read)
+	while (TRUE)
 	{
-		bytes_read = read(fd, buffer, 1024);
+		bytes_read = read(fd, buffer, BUFFER_SIZE);
 		if (bytes_read == 0)
 			break ;
 		buffer[bytes_read] = 0;
-		count += count_eol(buffer);
+		i = 0;
+		while(buffer[i])
+		{
+			if (buffer[i++] == '\n')
+				++count;
+		}
 	}
 	close(fd);
 	return (count);
 }
 
-
-t_point	**get_map(int n_lines, int fd, int *w)
+void	destroy_map(t_point **map)
 {
-	t_point	**result;
-	char	**line;
 	int	i;
 
-	result = malloc(sizeof(t_point *) * (n_lines + 1));
+	i = 0;
+	while (map[i] != NULL)
+		free(map[i++]);
+	free(map[i]);
+	free(map);
+}
+
+t_point	**get_map(char *filename, t_dimension *dimensions)
+{
+	t_point	**result;
+	char	**line_split;
+	char	*line;
+	int		i;
+	int		fd;
+
+	dimensions->height = count_lines(filename);
+	fd = open_file_correctly(filename);
+	result = malloc(sizeof(t_point *) * (dimensions->height + 1));
 	if (!result)
 		return (NULL);
-	result[n_lines] = NULL;
+	result[dimensions->height] = NULL;
 	i = 0;
-	while (i < n_lines)
+	while (i < dimensions->height)
 	{
-		line = ft_split(get_next_line(fd), ' ');;
+		line = get_next_line(fd);
+		if (!line)
+			break ;
+		line_split = ft_split(line, ' ');
+		free(line);
+		if (!line_split)
+		{
+			destroy_map(result);
+			return (NULL);
+		}
 		if (i == 0)
-			*w = count_matrix(line);
-		if (line)
-			result[i] = get_line_values(line);	
+			dimensions->width = count_matrix(line_split);
+		result[i] = get_line_values(line_split, dimensions);	
 		++i;
 	}
+	close(fd);
 	return (result);
 }
 
@@ -242,55 +269,171 @@ int	count_matrix(char **matrix)
 	return (i);
 }
 
-t_point	*get_line_values(char **splited_line)
+t_point	*get_line_values(char **splited_line, t_dimension *dimensions)
 {
 	t_point	*result;
 	int		i;
-	int		len;
 
-	len = count_matrix(splited_line);
-	result = malloc(sizeof(t_point) * len);
+	result = malloc(sizeof(t_point) * dimensions->width);
 	if (!result)
 		return (NULL);
 	i = 0;
 	while (splited_line[i] != NULL)
 	{
 		result[i].z = ft_atoi(splited_line[i]);
-		++i;
+		free(splited_line[i++]);
 	}
+	free(splited_line);
 	return (result);
 }
 
-void	connect_points(int lines, int count, t_point **grid, t_data *img)
+typedef struct	s_vars
 {
-	for (int i = 0; i < lines; i++)
-	{
-		for (int j = 0; j < count - 1; j++)
-		{
-			draw_line(grid[i][j].x, grid[i][j].y, grid[i][j+1].x, grid[i][j+1].y, img);
+	void	*init;
+	void	*win;
+	t_point	**grid;
+	int		width;
+	int		height;
+	float	offset;
+	t_point	translate;
+	t_data	img;
+	int		degree;
+}	t_vars;
 
-		}
-	}
-	for (int i = 0; i < count; i++)
+
+
+int	handle_no_event(void *data)
+{
+	if (!data)
+		return (0);
+	return (0);
+}
+
+int	handle_buttonpress(int button, int x, int y, t_vars *vars)
+{
+	(void)x;
+	(void)y;
+	if (button == 4 || (button == 5 && vars->offset >= 2))
 	{
-		for (int j = 0; j < lines - 1; j++)
+		mlx_clear_window(vars->init, vars->win);
+		ft_memset(vars->img.addr, 0, WIN_HEIGHT * WIN_WIDTH * 4);
+		if (button == 4)
+			vars->offset += 1;
+		if (button == 5)
+			vars->offset -= 1;
+		init_grid(vars->grid, vars->width, vars->height, vars->offset, &vars->img, vars->translate);
+		mlx_put_image_to_window(vars->init, vars->win, vars->img.img, 0, 0);
+	}
+	if (!vars)
+		return (0);
+	return (0);
+}
+
+int	close_win(t_vars *vars)
+{
+	destroy_map(vars->grid);
+	mlx_destroy_image(vars->init, vars->img.img);
+	mlx_destroy_window(vars->init, vars->win);
+	free(vars->init);
+	exit(0);
+	return (0);
+}
+
+double	degrees_to_radians(double degree)
+{
+	return (degree * (M_PI / 180));
+}
+
+t_coord		rotate_point(double degree, int x, int y, int z)
+{
+	t_coord result;
+	double dg;
+
+	dg = degrees_to_radians(degree);
+	result.x = x;
+	result.y = y * cos(dg) + z * sin(dg);
+	//result.z = y - result.y;
+	return (result);
+}
+
+void	rotate_matrix(t_point **map, int degree, int width, int height, t_data *img, int offset)
+{
+	int	i;
+	int	j;
+	
+	int center_X = map[0][width - 1].x / map[0][0].x - 100;
+	int center_Y = map[height - 1][0].y / map[0][0].y - 100;
+	t_coord	point;
+
+	i = 0;
+	(void) offset;
+	while (i < height)
+	{
+		j = 0;
+		while (j < width)
 		{
-			draw_line(grid[j][i].x, grid[j][i].y, grid[j+1][i].x, grid[j+1][i].y, img);
+			//printf("before: x = %d y = %d\n", map[i][j].x, map[i][j].y);
+			point = rotate_point(degree, map[i][j].x - center_X, map[i][j].y - center_Y, map[i][j].z);
+			printf("point: %d\n", point.z);
+			map[i][j].x2 = point.x;
+			map[i][j].y2 = point.y + WIN_HEIGHT / 2;
+			//printf("after: x = %d y = %d\n", map[i][j].x, map[i][j].y);
+			if (j >= 1)
+				draw_line(map[i][j - 1].x2, map[i][j - 1].y2, map[i][j].x2, map[i][j].y2, img);
+			if (i >= 1)
+				draw_line(map[i - 1][j].x2, map[i - 1][j].y2, map[i][j].x2, map[i][j].y2, img);
+			++j;
 		}
+		++i;
 	}
 }
 
-int	zoom_in(int keycode, int x, int y, t_test *grid)
+int	handle_keypress(int keycode, t_vars *vars)
 {
-	static float	a;
-	int				sum;
+	ft_printf("keycode = %d\n", keycode);
+	if (keycode == 65451 || (keycode == 65453 && vars->offset >= 2))
+	{
 
-	sum = x + y;
-	ft_printf("keycode=%d sum=%d ", sum, keycode);
-	ft_memset(grid->img.addr, 0, WIN_WIDTH * WIN_HEIGHT * (grid->img.bits_per_pixel / 8));
-	init_grid(grid->grid, grid->count, grid->lines, grid->offset + a, &grid->img);
-	a += 1;
-	mlx_put_image_to_window(grid->init, grid->win, grid->img.img, 0, 0);
+		mlx_clear_window(vars->init, vars->win);
+		ft_memset(vars->img.addr, 0, WIN_HEIGHT * WIN_WIDTH * 4);
+		if (keycode == 65451)
+			vars->offset += 1;
+		if (keycode == 65453)
+			vars->offset -= 1;
+		init_grid(vars->grid, vars->width, vars->height, vars->offset, &vars->img, vars->translate);
+		mlx_put_image_to_window(vars->init, vars->win, vars->img.img, 0, 0);
+	}
+	if (keycode >= 65361 && keycode <= 65364)
+	{
+		mlx_clear_window(vars->init, vars->win);
+		ft_memset(vars->img.addr, 0, WIN_HEIGHT * WIN_WIDTH * 4);
+		if (keycode == 65361)
+			vars->translate.x -= 5;
+		if (keycode == 65362)
+			vars->translate.y -= 5;
+		if (keycode == 65363)
+			vars->translate.x += 5;
+		if (keycode == 65364)
+			vars->translate.y += 5;
+		init_grid(vars->grid, vars->width, vars->height, vars->offset, &vars->img, vars->translate);
+		mlx_put_image_to_window(vars->init, vars->win, vars->img.img, 0, 0);
+	}
+	if (keycode == 65307)
+	{
+		destroy_map(vars->grid);
+		mlx_destroy_image(vars->init, vars->img.img);
+		mlx_destroy_window(vars->init, vars->win);
+		free(vars->init);
+		exit(0);
+	}
+	if (keycode == 113)
+	{
+		mlx_clear_window(vars->init, vars->win);
+		ft_memset(vars->img.addr, 0, WIN_HEIGHT * WIN_WIDTH * 4);
+		vars->degree += 3;
+		rotate_matrix(vars->grid, vars->degree, vars->width, vars->height, &vars->img, vars->offset);
+		mlx_put_image_to_window(vars->init, vars->win, vars->img.img, 0, 0);
+	}
 	return (0);
 }
 
@@ -298,46 +441,43 @@ int	main(int argc, char **argv)
 {
 	void	*init;
 	void	*win;
-	t_point	**grid;
-	t_test	test;
-	int		fd;
-	int		lines;
-	int		count;
 	t_data	img;
+	t_point	**grid;
+	t_dimension	dimensions;
+	t_vars	vars;
 
 	if (argc < 2)
 	{
-		ft_printf("Usage: %s <filename> [ case_size z_size ]\n", argv[0]);
+		ft_printf("Usage: %s <filename>\n", argv[0]);
 		return (1);
 	}
-	lines = count_lines(argv[1]);
-	fd = open(argv[1], O_RDONLY);
-	if (fd == -1)
+	if (!valid_suffix(argv[1]))
 	{
-		perror("Error");
-		return (errno);
+		ft_putendl_fd("fdf: invalid filetype", 2);
+		return (2);
 	}
-	grid = get_map(lines, fd, &count);
+	grid = get_map(argv[1], &dimensions);
 	init = mlx_init();
 	win = mlx_new_window(init, WIN_WIDTH, WIN_HEIGHT, "Test");
-	ft_printf("lines = %d\n", lines);
 	img.img = mlx_new_image(init, WIN_WIDTH, WIN_HEIGHT);
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_len, &img.end);
-	init_grid(grid, count, lines, OFFSET, &img);
-	test.grid = grid;
-	test.lines = lines;
-	test.count = count;
-	test.img = img;
-	test.init = init;
-	test.win = win;
-	test.offset = OFFSET;
-	//connect_points(lines, count, test.grid, &img);
-	mlx_mouse_hook(win, zoom_in, &test);
+	vars.init = init;
+	vars.win = win;
+	vars.grid = grid;
+	vars.width = dimensions.width;
+	vars.height = dimensions.height;
+	vars.offset = OFFSET;
+	vars.img = img;
+	vars.translate.x = 0;
+	vars.translate.y = 0;
+	vars.degree = 1;
+	printf("%f\n", degrees_to_radians(265));
+	init_grid(grid, dimensions.width, dimensions.height, OFFSET, &img, vars.translate);
 	mlx_put_image_to_window(init, win, img.img, 0, 0);
-	//print_grid(init, win, grid, count, lines);
-	// draw_line(init, win, 300, 125, 250, 150);
+	mlx_loop_hook(vars.win, handle_no_event, &vars);
+	mlx_hook(vars.win, 2, 	1L<<0, handle_keypress, &vars);
+	mlx_hook(vars.win, 4, 1L<<2, handle_buttonpress, &vars);
+	mlx_hook(vars.win, 17, 0, close_win, &vars);
 	mlx_loop(init);
-	free(grid);
-	close(fd);
 	return (0);
 }
