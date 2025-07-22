@@ -6,7 +6,7 @@
 /*   By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:41:58 by jcesar-s          #+#    #+#             */
-/*   Updated: 2025/07/18 17:55:12 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/07/22 14:49:34 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void	ft_pixel_put(t_data *data, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
+/*
 void	draw_line(int x_start, int y_start, int x_end, int y_end, t_data *img_data)
 {
 	float	delta_x;
@@ -85,7 +86,36 @@ void	draw_line(int x_start, int y_start, int x_end, int y_end, t_data *img_data)
 		ft_pixel_put(img_data, pixel, y, 0x7B8FBD);
 		++pixel;
 	}
+}*/
+
+void    draw_line(int x_start, int y_start, int x_end, int y_end, t_data *img_data, int color)
+{
+    int dx = abs(x_end - x_start);
+    int dy = abs(y_end - y_start);
+    int sx = (x_start < x_end) ? 1 : -1;
+    int sy = (y_start < y_end) ? 1 : -1;
+    int err = dx - dy;
+    int err2;
+
+    while (1)
+    {
+        ft_pixel_put(img_data, x_start, y_start, color);
+        if (x_start == x_end && y_start == y_end)
+            break;
+        err2 = 2 * err;
+        if (err2 > -dy)
+        {
+            err -= dy;
+            x_start += sx;
+        }
+        if (err2 < dx)
+        {
+            err += dx;
+            y_start += sy;
+        }
+    }
 }
+
 
 void	init_point(t_point *point, int x, int y)
 {
@@ -103,8 +133,8 @@ void	init_grid(t_point **array, int width, int height, float offset, t_data *tes
 
 	position.x = width / 2;
 	position.y = height / 2;
-	tmp.x = (WIN_WIDTH / 2) + (position.y - position.x) * (offset * 2);
-	tmp.y = (WIN_HEIGHT / 2) - (position.x + position.x) * offset;
+	tmp.x = 0 + (position.y - position.x) * (offset * 2);
+	tmp.y = 0 - (position.x + position.x) * offset;
 	i = 0;
 	init_point(&start, tmp.x, tmp.y);
 	while (i < height)
@@ -113,15 +143,17 @@ void	init_grid(t_point **array, int width, int height, float offset, t_data *tes
 		while (j < width)
 		{
 			init_point(&array[i][j], start.x + translate.x, start.y + translate.y);
+			if (array[i][j].z != 0)
+				array[i][j].z += translate.z;
 			array[i][j].y -= round((array[i][j].z) * (offset / 7));
 			//start.x += round(offset * 1.16);
 			//start.y += round((offset / 2) * 1.75);
 			start.x += offset * 2;
 			start.y += offset;
 			if (j >= 1)
-				draw_line(array[i][j - 1].x, array[i][j - 1].y, array[i][j].x, array[i][j].y, test);
+				draw_line(array[i][j - 1].x, array[i][j - 1].y, array[i][j].x, array[i][j].y, test, array[i][j].color);
 			if (i >= 1)
-				draw_line(array[i - 1][j].x, array[i - 1][j].y, array[i][j].x, array[i][j].y, test);
+				draw_line(array[i - 1][j].x, array[i - 1][j].y, array[i][j].x, array[i][j].y, test, array[i][j].color);
 			++j;
 		}
 		++i;
@@ -269,10 +301,35 @@ int	count_matrix(char **matrix)
 	return (i);
 }
 
+int	ft_atoi_hex(char *nbr)
+{
+	int	i;
+	int	result;
+
+	i = 0;
+	if (!ft_strncmp("0x", nbr, 2))
+		i += 2;
+	result = 0;
+	while (nbr[i])
+	{
+		result *= 16;
+		if (nbr[i] >= 'a' && nbr[i] <= 'f')
+			result += nbr[i] - 'a';
+		else if (nbr[i] >= 'A' && nbr[i] <= 'F')
+			result += nbr[i] - 'A';
+		else if (nbr[i] >= '0' && nbr[i] <= '9')
+			result += nbr[i] - '0';
+		++i;
+	}
+	return (result);
+}
+
 t_point	*get_line_values(char **splited_line, t_dimension *dimensions)
 {
 	t_point	*result;
+	char	**color_case;
 	int		i;
+	int		j;
 
 	result = malloc(sizeof(t_point) * dimensions->width);
 	if (!result)
@@ -281,6 +338,20 @@ t_point	*get_line_values(char **splited_line, t_dimension *dimensions)
 	while (splited_line[i] != NULL)
 	{
 		result[i].z = ft_atoi(splited_line[i]);
+		if (ft_strchr(splited_line[i], ','))
+		{
+			color_case = ft_split(splited_line[i], ',');
+			if (!color_case)
+				return (NULL);
+			j = 0;
+			while (color_case[j] != NULL)
+			{
+				if (j == 0)
+					result[i].color = ft_atoi_hex(color_case[1]);
+				free(color_case[j++]);
+			}
+			free(color_case);
+		}
 		free(splited_line[i++]);
 	}
 	free(splited_line);
@@ -350,9 +421,9 @@ t_coord		rotate_point(double degree, int x, int y, int z)
 	double dg;
 
 	dg = degrees_to_radians(degree);
-	result.x = x;
-	result.y = y * cos(dg) + z * sin(dg);
-	//result.z = y - result.y;
+	result.x = x + WIN_WIDTH / 2;
+	result.y = y * cos(dg) + z * sin(dg) + WIN_HEIGHT / 2;
+	result.z = z * cos(dg) - y * sin(dg);
 	return (result);
 }
 
@@ -361,8 +432,6 @@ void	rotate_matrix(t_point **map, int degree, int width, int height, t_data *img
 	int	i;
 	int	j;
 	
-	int center_X = map[0][width - 1].x / map[0][0].x - 100;
-	int center_Y = map[height - 1][0].y / map[0][0].y - 100;
 	t_coord	point;
 
 	i = 0;
@@ -373,15 +442,16 @@ void	rotate_matrix(t_point **map, int degree, int width, int height, t_data *img
 		while (j < width)
 		{
 			//printf("before: x = %d y = %d\n", map[i][j].x, map[i][j].y);
-			point = rotate_point(degree, map[i][j].x - center_X, map[i][j].y - center_Y, map[i][j].z);
-			printf("point: %d\n", point.z);
+			//int	z = round(map[i][j].z * (offset / 7));
+			point = rotate_point(degree, map[i][j].x, map[i][j].y, map[i][j].z);
+			//printf("point: %d\n", point.z);
 			map[i][j].x2 = point.x;
-			map[i][j].y2 = point.y + WIN_HEIGHT / 2;
+			map[i][j].y2 = point.y - point.z; //- round(point.z * (offset / 7);
 			//printf("after: x = %d y = %d\n", map[i][j].x, map[i][j].y);
 			if (j >= 1)
-				draw_line(map[i][j - 1].x2, map[i][j - 1].y2, map[i][j].x2, map[i][j].y2, img);
+				draw_line(map[i][j - 1].x2, map[i][j - 1].y2, map[i][j].x2, map[i][j].y2, img, map[i][j].color);
 			if (i >= 1)
-				draw_line(map[i - 1][j].x2, map[i - 1][j].y2, map[i][j].x2, map[i][j].y2, img);
+				draw_line(map[i - 1][j].x2, map[i - 1][j].y2, map[i][j].x2, map[i][j].y2, img, map[i][j].color);
 			++j;
 		}
 		++i;
@@ -390,7 +460,7 @@ void	rotate_matrix(t_point **map, int degree, int width, int height, t_data *img
 
 int	handle_keypress(int keycode, t_vars *vars)
 {
-	ft_printf("keycode = %d\n", keycode);
+	//ft_printf("keycode = %d\n", keycode);
 	if (keycode == 65451 || (keycode == 65453 && vars->offset >= 2))
 	{
 
@@ -434,6 +504,14 @@ int	handle_keypress(int keycode, t_vars *vars)
 		rotate_matrix(vars->grid, vars->degree, vars->width, vars->height, &vars->img, vars->offset);
 		mlx_put_image_to_window(vars->init, vars->win, vars->img.img, 0, 0);
 	}
+	if (keycode == 122)
+	{
+		mlx_clear_window(vars->init, vars->win);
+		ft_memset(vars->img.addr, 0, WIN_HEIGHT * WIN_WIDTH * 4);
+		vars->translate.z -= 5;
+		init_grid(vars->grid, vars->width, vars->height, vars->offset, &vars->img, vars->translate);
+		mlx_put_image_to_window(vars->init, vars->win, vars->img.img, 0, 0);
+	}
 	return (0);
 }
 
@@ -470,6 +548,7 @@ int	main(int argc, char **argv)
 	vars.img = img;
 	vars.translate.x = 0;
 	vars.translate.y = 0;
+	vars.translate.z = 0;
 	vars.degree = 1;
 	printf("%f\n", degrees_to_radians(265));
 	init_grid(grid, dimensions.width, dimensions.height, OFFSET, &img, vars.translate);
