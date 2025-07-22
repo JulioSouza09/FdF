@@ -6,7 +6,7 @@
 /*   By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:41:58 by jcesar-s          #+#    #+#             */
-/*   Updated: 2025/07/22 14:49:34 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/07/22 16:44:42 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ void	ft_pixel_put(t_data *data, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-/*
-void	draw_line(int x_start, int y_start, int x_end, int y_end, t_data *img_data)
+
+void	draw_line(int x_start, int y_start, int x_end, int y_end, t_data *img_data, int color)
 {
 	float	delta_x;
 	float	delta_y;
@@ -77,45 +77,16 @@ void	draw_line(int x_start, int y_start, int x_end, int y_end, t_data *img_data)
 	while (pixel > x_end)
 	{
 		y = (delta_y / delta_x) * (pixel - x_start) + y_start;
-		ft_pixel_put(img_data, pixel, y, 0x7B8FBD);
+		ft_pixel_put(img_data, pixel, y, color);
 		--pixel;
 	}
 	while (pixel < x_end)
 	{
 		y = (delta_y / delta_x) * (pixel - x_start) + y_start;
-		ft_pixel_put(img_data, pixel, y, 0x7B8FBD);
+		ft_pixel_put(img_data, pixel, y, color);
 		++pixel;
 	}
-}*/
-
-void    draw_line(int x_start, int y_start, int x_end, int y_end, t_data *img_data, int color)
-{
-    int dx = abs(x_end - x_start);
-    int dy = abs(y_end - y_start);
-    int sx = (x_start < x_end) ? 1 : -1;
-    int sy = (y_start < y_end) ? 1 : -1;
-    int err = dx - dy;
-    int err2;
-
-    while (1)
-    {
-        ft_pixel_put(img_data, x_start, y_start, color);
-        if (x_start == x_end && y_start == y_end)
-            break;
-        err2 = 2 * err;
-        if (err2 > -dy)
-        {
-            err -= dy;
-            x_start += sx;
-        }
-        if (err2 < dx)
-        {
-            err += dx;
-            y_start += sy;
-        }
-    }
 }
-
 
 void	init_point(t_point *point, int x, int y)
 {
@@ -255,6 +226,42 @@ void	destroy_map(t_point **map)
 	free(map);
 }
 
+/*
+t_map	*create_map(char *filename, t_parser parser)
+{
+	t_map	*map;
+
+	map = malloc(sizeof(t_map));
+	if (!map)
+		return (NULL);
+	map->offset = offset;
+	map->matrix = NULL;
+	if(!parser.get_size(filename, map))
+		return (destroy_map(map), NULL);
+	if(!parser.create_matrix(map))
+		return (destroy_map(map), NULL);
+	if(!parser.fill_matrix(filename, map))
+		return (destroy_map(map), NULL);
+	return (map);
+}
+
+void	destroy_map(t_map *map)
+{
+	t_point	**matrix;
+	int		i;
+
+	if (map->matrix)
+	{
+		matrix = map->matrix;
+		i = 0;
+		while (matrix[i] < map->height)
+			free(matrix[i++]);
+		free(matrix);
+	}
+	free(map);
+}
+*/
+
 t_point	**get_map(char *filename, t_dimension *dimensions)
 {
 	t_point	**result;
@@ -352,6 +359,8 @@ t_point	*get_line_values(char **splited_line, t_dimension *dimensions)
 			}
 			free(color_case);
 		}
+		else
+			result[i].color = 0xFFFFF3;
 		free(splited_line[i++]);
 	}
 	free(splited_line);
