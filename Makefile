@@ -6,7 +6,7 @@
 #    By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/26 13:02:42 by jcesar-s          #+#    #+#              #
-#    Updated: 2025/07/30 12:39:32 by jcesar-s         ###   ########.fr        #
+#    Updated: 2025/07/30 13:31:32 by jcesar-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,12 +17,15 @@ LIBX=lib/minilibx
 LIBXA=$(LIBX)/libmlx_linux.a
 LIBFT=lib/libft
 LIBFTA=$(LIBFT)/libft.a
-SRC= main.c
+SRC= main.c draw.c map_utils.c file_utils.c events.c rotation.c
 _SRC=$(patsubst %.c, srcs/%.c, $(SRC))
-OBJS=./objs/$(SRC:.c=.o)
+OBJS=$(patsubst %.c, objs/%.o, $(SRC))
 ODIR=objs
 CDIR=srcs
 INCDIR=.
+
+# debug:
+# 	echo $(OBJS)
 
 $(ODIR)/%.o: $(CDIR)/%.c
 	$(CC) $(CFLAGS) -c $^ -o $@ -I $(INCDIR) -I $(LIBX) -I $(LIBFT) -g
