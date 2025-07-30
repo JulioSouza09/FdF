@@ -6,7 +6,7 @@
 /*   By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 12:40:57 by jcesar-s          #+#    #+#             */
-/*   Updated: 2025/07/30 12:41:26 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/07/30 15:35:34 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	draw_line(int x_start, int y_start, int x_end, int y_end, t_data *img_data,
 	}
 }
 
-void	init_point(t_point *point, int x, int y)
+static void	init_point(t_point *point, int x, int y)
 {
 	point->x = x;
 	point->y = y;

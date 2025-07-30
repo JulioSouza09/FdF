@@ -6,16 +6,16 @@
 /*   By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 13:29:11 by jcesar-s          #+#    #+#             */
-/*   Updated: 2025/07/30 13:29:13 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/07/30 15:41:53 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int	handle_no_event(void *data)
+int	handle_no_event(t_vars *vars)
 {
-	if (!data)
-		return (0);
+	init_grid(vars->grid, vars->width, vars->height, OFFSET, &vars->img, vars->translate);
+	mlx_put_image_to_window(vars->init, vars->win, vars->img.img, 0, 0);
 	return (0);
 }
 
