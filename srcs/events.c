@@ -6,7 +6,7 @@
 /*   By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 13:29:11 by jcesar-s          #+#    #+#             */
-/*   Updated: 2025/07/30 15:41:53 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/07/30 16:17:43 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	handle_no_event(t_vars *vars)
 {
-	init_grid(vars->grid, vars->width, vars->height, OFFSET, &vars->img, vars->translate);
+	init_grid(vars->grid, vars->width, vars->height, OFFSET);
 	mlx_put_image_to_window(vars->init, vars->win, vars->img.img, 0, 0);
 	return (0);
 }
@@ -31,7 +31,7 @@ int	handle_buttonpress(int button, int x, int y, t_vars *vars)
 			vars->offset += 1;
 		if (button == 5)
 			vars->offset -= 1;
-		init_grid(vars->grid, vars->width, vars->height, vars->offset, &vars->img, vars->translate);
+		init_grid(vars->grid, vars->width, vars->height, vars->offset);
 		mlx_put_image_to_window(vars->init, vars->win, vars->img.img, 0, 0);
 	}
 	if (!vars)
@@ -59,7 +59,7 @@ int	handle_keypress(int keycode, t_vars *vars)
 			vars->offset += 1;
 		if (keycode == 65453)
 			vars->offset -= 1;
-		init_grid(vars->grid, vars->width, vars->height, vars->offset, &vars->img, vars->translate);
+		init_grid(vars->grid, vars->width, vars->height, vars->offset);
 		mlx_put_image_to_window(vars->init, vars->win, vars->img.img, 0, 0);
 	}
 	if (keycode >= 65361 && keycode <= 65364)
@@ -74,7 +74,7 @@ int	handle_keypress(int keycode, t_vars *vars)
 			vars->translate.x += 5;
 		if (keycode == 65364)
 			vars->translate.y += 5;
-		init_grid(vars->grid, vars->width, vars->height, vars->offset, &vars->img, vars->translate);
+		init_grid(vars->grid, vars->width, vars->height, vars->offset);
 		mlx_put_image_to_window(vars->init, vars->win, vars->img.img, 0, 0);
 	}
 	if (keycode == 65307)
@@ -98,7 +98,7 @@ int	handle_keypress(int keycode, t_vars *vars)
 		mlx_clear_window(vars->init, vars->win);
 		ft_memset(vars->img.addr, 0, WIN_HEIGHT * WIN_WIDTH * 4);
 		vars->translate.z -= 5;
-		init_grid(vars->grid, vars->width, vars->height, vars->offset, &vars->img, vars->translate);
+		init_grid(vars->grid, vars->width, vars->height, vars->offset);
 		mlx_put_image_to_window(vars->init, vars->win, vars->img.img, 0, 0);
 	}
 	return (0);

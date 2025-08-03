@@ -6,7 +6,7 @@
 /*   By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 12:42:07 by jcesar-s          #+#    #+#             */
-/*   Updated: 2025/07/30 15:35:13 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/07/31 01:04:18 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ typedef struct s_dimension
 
 typedef struct s_coord
 {
-	double	x;
-	double	y;
-	double	z;
+	int	x;
+	int	y;
+	int	z;
 }	t_coord;
 
 typedef struct s_test
@@ -93,7 +93,7 @@ void	ft_pixel_put(t_data *data, int x, int y, int color);
 void	draw_line(int x_start, int y_start, int x_end, int y_end, t_data *img_data, int color);
 
 /* Point and grid functions */
-void	init_grid(t_point **array, int width, int height, float offset, t_data *test, t_point translate);
+void	init_grid(t_point **array, int width, int height, float offset);
 
 /* File handling functions */
 int		valid_suffix(char *filename);
