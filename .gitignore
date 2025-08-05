@@ -4,3 +4,4 @@ initial-resources
 lib/libft/*.o
 lib/libft/libft.a
 lib/minilibx/objs/*.a
+.standby
