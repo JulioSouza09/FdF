@@ -1,23 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.h                                              :+:      :+:    :+:   */
+/*   input_handler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/30 12:42:07 by jcesar-s          #+#    #+#             */
-/*   Updated: 2025/08/05 16:45:02 by jcesar-s         ###   ########.fr       */
+/*   Created: 2025/08/05 16:43:49 by jcesar-s          #+#    #+#             */
+/*   Updated: 2025/08/05 16:44:05 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FDF_H
-# define FDF_H
+#include "fdf.h"
 
-# include <stdio.h>
-# include <errno.h>
-# include "libft.h"
+void	usage_error(char *str)
+{
+	ft_putstr_fd("Usage: ", 2);
+	ft_putstr_fd(str, 2);
+	ft_putendl_fd(" <filename>", 2);
+}
 
-void	usage_error(char *str);
-int	valid_suffix(char *filename);
+int	valid_suffix(char *filename)
+{
+	const char	*suffix = ".fdf";
+	char		*result;
 
-#endif
+	result = ft_strrchr(filename, '.');
+	if (ft_strncmp(result, suffix, ft_strlen(result)) == 0)
+		return (1);
+	return (0);
+}
