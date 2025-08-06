@@ -6,7 +6,7 @@
 /*   By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 12:42:07 by jcesar-s          #+#    #+#             */
-/*   Updated: 2025/08/06 11:51:33 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/08/06 19:13:06 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,40 @@ typedef struct	s_map
 	int		height;
 }	t_map;
 
+typedef struct	s_data
+{
+	void	*img;
+	char	*addr;
+	int		bpp;
+	int		line_len;
+	int		end;
+}	t_data;
+
+typedef struct	s_app
+{
+	void	*mlx;
+	void	*win;
+	t_data	img;
+	t_map	*map;
+}	t_app;
+
 /***** Input handler *****/
 void	usage_error(char *str);
 int		valid_suffix(char *filename);
-int		open_correctly(char *filename, char *on_failure);
+int		open_correctly(char *filename);
 
 /***** File handler *****/
-int		get_height(char *filename);
-int		get_width(char *filename);
 t_map	*get_map(char *filename);
+
+/***** Map creator *****/
 void	destroy_map(t_map *map);
+
+/***** Map utils *****/
+int		get_dimensions(int fd, int *width, int *height);
+void	free_z(t_point **z, int position);
+t_point	**get_z(int fd, t_map *map);
+t_point	*get_file_values(char **line_split, int width);
+
+/***** utils *****/
+int		ft_atoi_hex(char *nbr);
 #endif

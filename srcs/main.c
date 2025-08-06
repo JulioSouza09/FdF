@@ -6,7 +6,7 @@
 /*   By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 15:41:53 by jcesar-s          #+#    #+#             */
-/*   Updated: 2025/08/06 12:23:55 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/08/06 17:14:18 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,28 @@ int	main(int argc, char **argv)
 		ft_putendl_fd("FdF: Invalid filetype. Expected '.fdf' file.", 2);
 		return (2);
 	}
+	//char	files[4][100] = {
+	//	"maps/julia.fdf",
+	//	"maps/japan.fdf",
+	//	"maps/42.fdf",
+	//	"maps/france.fdf"
+	//};
+	//for (int x = 0; x < 4; x++)
+	//{
+	//	ft_printf("Map: %s\n", files[x]);
+	//	t_map	*map = get_map(files[x]);
+	//	
+	//	ft_printf("Map Height: %d\n", map->height);
+	//	ft_printf("Map Width: %d\n\n", map->width);
+	//	destroy_map(map);
+	//}
 	t_map	*map = get_map(argv[1]);
 	for (int i = 0; i < map->height; i++)
 	{
 		for (int j = 0; j < map->width; j++)
 		{
-			ft_printf("%d", map->z[i][j].color);
-			if (map->z[i][j + 1].z > 9)
+			ft_printf("%d", map->z[i][j].z);
+			if (j < map->width - 1 && map->z[i][j + 1].z > 9)
 				ft_printf(" ");
 			else
 				ft_printf("  ");
@@ -40,33 +55,3 @@ int	main(int argc, char **argv)
 	destroy_map(map);
 	return (0);
 }
-
-
-//	/***** File handler *****/
-//	int	output = 0;
-//	int	i = 0;
-//	/***** get_height() *****/
-// 	output = get_height("maps/42.fdf");
-//	ft_printf("Test %d: %d\n", ++i, output);
-//
-//	output = get_height("maps/japan.fdf");
-//	ft_printf("Test %d: %d\n", ++i, output);
-//
-//	output = get_height("maps/france.fdf");
-//	ft_printf("Test %d: %d\n", ++i, output);
-//
-//	output = get_height("maps/julia.fdf");
-//	ft_printf("Test %d: %d\n", ++i, output);
-//
-//	/***** get_width() *****/
-// 	output = get_width("maps/42.fdf");
-//	ft_printf("Test %d: %d\n", ++i, output);
-//
-//	output = get_width("maps/japan.fdf");
-//	ft_printf("Test %d: %d\n", ++i, output);
-//
-//	output = get_width("maps/france.fdf");
-//	ft_printf("Test %d: %d\n", ++i, output);
-//
-//	output = get_width("maps/julia.fdf");
-//	ft_printf("Test %d: %d\n", ++i, output);

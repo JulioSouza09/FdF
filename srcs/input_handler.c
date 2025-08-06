@@ -6,7 +6,7 @@
 /*   By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 16:43:49 by jcesar-s          #+#    #+#             */
-/*   Updated: 2025/08/06 11:25:53 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/08/06 16:25:18 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	valid_suffix(char *filename)
 	return (0);
 }
 
-int	open_correctly(char *filename, char *on_failure)
+int	open_correctly2(char *filename, char *on_failure)
 {
 	int	fd;
 
@@ -42,6 +42,19 @@ int	open_correctly(char *filename, char *on_failure)
 			exit(errno);
 		if (ft_strncmp(on_failure, "return", ft_strlen(on_failure)))
 			return (0);
+	}
+	return (fd);
+}
+
+int	open_correctly(char *filename)
+{
+	int	fd;
+
+	fd = open(filename, O_RDONLY);
+	if (fd == -1)
+	{
+		perror("fdf");
+		exit(errno);
 	}
 	return (fd);
 }
