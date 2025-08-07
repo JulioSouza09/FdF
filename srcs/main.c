@@ -6,7 +6,7 @@
 /*   By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 15:41:53 by jcesar-s          #+#    #+#             */
-/*   Updated: 2025/08/07 13:05:04 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/08/07 18:36:29 by joel             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,33 +37,45 @@ int	main(int argc, char **argv)
 	return (0);
 }
 
-	//char	files[4][100] = {
-	//	"maps/julia.fdf",
-	//	"maps/japan.fdf",
-	//	"maps/42.fdf",
-	//	"maps/france.fdf"
-	//};
-	//for (int x = 0; x < 4; x++)
-	//{
-	//	ft_printf("Map: %s\n", files[x]);
-	//	t_map	*map = get_map(files[x]);
-	//	
-	//	ft_printf("Map Height: %d\n", map->height);
-	//	ft_printf("Map Width: %d\n\n", map->width);
-	//	destroy_map(map);
-	//}
-	// t_map	*map = get_map(argv[1]);
-	// for (int i = 0; i < map->height; i++)
-	// {
-	// 	for (int j = 0; j < map->width; j++)
-	// 	{
-	// 		ft_printf("%d", map->z[i][j].z);
-	// 		if (j < map->width - 1 && map->z[i][j + 1].z > 9)
-	// 			ft_printf(" ");
-	// 		else
-	// 			ft_printf("  ");
-	// 	}
-	// 	ft_printf("\n");
-	// }
-	// destroy_map(map);
+// draw_line tests
+// t_line top = init_coords(200, 200, 1400, 200);
+// t_line bottom = init_coords(200, 700, 1400, 700);
+// t_line left = init_coords(200, 200, 200, 700);
+// t_line right = init_coords(1400, 200, 1400, 700);
+// draw_line(top, &app->img);
+// draw_line(bottom, &app->img);
+// draw_line(left, &app->img);
+// draw_line(right, &app->img);
+// mlx_put_image_to_window(app->mlx, app->win, app->img.img, 0, 0);
+//
+// map_creator tests
+//char	files[4][100] = {
+//	"maps/julia.fdf",
+//	"maps/japan.fdf",
+//	"maps/42.fdf",
+//	"maps/france.fdf"
+//};
+//for (int x = 0; x < 4; x++)
+//{
+//	ft_printf("Map: %s\n", files[x]);
+//	t_map	*map = get_map(files[x]);
+//	
+//	ft_printf("Map Height: %d\n", map->height);
+//	ft_printf("Map Width: %d\n\n", map->width);
+//	destroy_map(map);
+//}
+// t_map	*map = get_map(argv[1]);
+// for (int i = 0; i < map->height; i++)
+// {
+// 	for (int j = 0; j < map->width; j++)
+// 	{
+// 		ft_printf("%d", map->z[i][j].z);
+// 		if (j < map->width - 1 && map->z[i][j + 1].z > 9)
+// 			ft_printf(" ");
+// 		else
+// 			ft_printf("  ");
+// 	}
+// 	ft_printf("\n");
+// }
+// destroy_map(map);
 

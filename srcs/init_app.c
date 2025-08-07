@@ -6,7 +6,7 @@
 /*   By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 12:36:58 by jcesar-s          #+#    #+#             */
-/*   Updated: 2025/08/07 13:01:45 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/08/07 14:26:30 by joel             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ t_app	*init_app(char *filename)
 		return (NULL);
 	app->map = map;
 	app->mlx = mlx_init();
-	app->win= mlx_new_window(app->mlx, 1600, 900, filename);
-	tmp.img = mlx_new_image(app->mlx, 1600, 900);
+	app->win= mlx_new_window(app->mlx, WIN_WIDTH, WIN_HEIGHT, filename);
+	tmp.img = mlx_new_image(app->mlx, WIN_WIDTH, WIN_HEIGHT);
 	tmp.addr = mlx_get_data_addr(tmp.img, &tmp.bpp, &tmp.line_len, &tmp.end);
 	app->img = tmp;
 	return (app);

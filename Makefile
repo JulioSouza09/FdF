@@ -6,7 +6,7 @@
 #    By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/26 13:02:42 by jcesar-s          #+#    #+#              #
-#    Updated: 2025/08/07 12:39:23 by jcesar-s         ###   ########.fr        #
+#    Updated: 2025/08/07 18:34:37 by joel             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ LIBXA=$(LIBX)/libmlx_linux.a
 LIBFT=lib/libft
 LIBFTA=$(LIBFT)/libft.a
 SRC= main.c input_handler.c map_creator.c map_utils.c utils.c init_app.c
+SRC+=draw_line.c draw_utils.c
 _SRC=$(patsubst %.c, srcs/%.c, $(SRC))
 OBJS=$(patsubst %.c, objs/%.o, $(SRC))
 ODIR=objs

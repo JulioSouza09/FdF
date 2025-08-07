@@ -6,7 +6,7 @@
 /*   By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 17:36:42 by jcesar-s          #+#    #+#             */
-/*   Updated: 2025/08/06 17:37:02 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/08/07 18:29:21 by joel             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,13 @@ int	ft_atoi_hex(char *nbr)
 		++i;
 	}
 	return (result);
+}
+
+void	ft_swap(int *a, int *b)
+{
+	int	tmp;
+
+	tmp = *a;
+	*a = *b;
+	*b = tmp;
 }
