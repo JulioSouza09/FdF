@@ -1,4 +1,4 @@
-objs
+objs/*
 fdf
 initial-resources
 lib/libft/*.o
