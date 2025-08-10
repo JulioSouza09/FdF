@@ -6,7 +6,7 @@
 /*   By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 15:41:53 by jcesar-s          #+#    #+#             */
-/*   Updated: 2025/08/07 18:36:29 by joel             ###   ########.fr       */
+/*   Updated: 2025/08/09 21:06:44 by joel             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int	main(int argc, char **argv)
 		ft_putendl_fd("FdF: Initialization error!", 2);
 		return (4);
 	}
+	render(app);
 	mlx_loop(app->mlx);
 	close_program(app);
 	return (0);

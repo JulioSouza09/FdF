@@ -6,7 +6,7 @@
 /*   By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 12:42:07 by jcesar-s          #+#    #+#             */
-/*   Updated: 2025/08/07 18:31:29 by joel             ###   ########.fr       */
+/*   Updated: 2025/08/10 12:58:41 by joel             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,5 +97,8 @@ void	draw_line(t_line coords, t_data *data);
 
 /***** Draw utils *****/
 t_line	init_coords(int x0, int y0, int x1, int y1);
+
+/***** Render *****/
+void	render(t_app *app);
 
 #endif
