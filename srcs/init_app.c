@@ -6,7 +6,7 @@
 /*   By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 12:36:58 by jcesar-s          #+#    #+#             */
-/*   Updated: 2025/08/10 20:47:45 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/08/11 17:38:09 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,18 @@ t_app	*init_app(char *filename)
 	tmp.img = mlx_new_image(app->mlx, WIN_WIDTH, WIN_HEIGHT);
 	tmp.addr = mlx_get_data_addr(tmp.img, &tmp.bpp, &tmp.line_len, &tmp.end);
 	app->img = tmp;
-	app->transform.zoom = 40;
+	app->transform.zoom = 1;
 	return (app);
 }
 
-void	close_program(t_app *program)
+int	close_program(t_app *app)
 {
-	mlx_destroy_image(program->mlx, program->img.img);
-	mlx_destroy_window(program->mlx, program->win);
-	destroy_map(program->map);
-	free(program->mlx);
-	free(program->img.addr);
-	free(program);
+	mlx_destroy_image(app->mlx, app->img.img);
+	mlx_destroy_window(app->mlx, app->win);
+	destroy_map(app->map);
+	mlx_destroy_display(app->mlx);
+	free(app->mlx);
+	free(app);
+	exit(0);
+	return (0);
 }

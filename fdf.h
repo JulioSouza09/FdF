@@ -6,7 +6,7 @@
 /*   By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 12:42:07 by jcesar-s          #+#    #+#             */
-/*   Updated: 2025/08/10 18:45:57 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/08/11 18:26:48 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,16 +99,22 @@ void	ft_swap(int *a, int *b);
 
 /***** Init app *****/
 t_app	*init_app(char *filename);
-void	close_program(t_app *program);
+int	close_program(t_app *program);
 
 /***** Draw line *****/
-void	draw_line(t_line coords, t_data *data, t_map *map, t_draw *apply);
+void	draw_line(t_line coords, t_data *data, t_app *app);
 
 /***** Draw utils *****/
 t_line	init_coords(int x0, int y0, int x1, int y1);
+void	center_axis(t_line *coords, t_map *map);
+void	zoom(t_line *coords, int *z0, int *z1, t_draw *apply);
+void	center(t_line *coords);
 
 /***** Render *****/
-void	render(t_app *app);
+int	render(t_app *app);
 void	isometric(int *x, int *y, int z);
+
+/***** Key handler *****/
+void	init_hooks(t_app *app);
 
 #endif

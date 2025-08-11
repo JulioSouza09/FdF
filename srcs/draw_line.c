@@ -6,7 +6,7 @@
 /*   By: joel <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 13:23:15 by joel              #+#    #+#             */
-/*   Updated: 2025/08/10 20:42:59 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/08/11 18:29:59 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	handle_octants(t_math *vars, t_line *coords, int flag, int *delta)
 	*delta *= vars->dir;
 }
 
-static void	draw_line_h(t_line coords, t_data *data)
+static void	draw_line_h(t_line coords, t_data *data, int color)
 {
 	t_math	vars;
 	int	i;
@@ -48,7 +48,7 @@ static void	draw_line_h(t_line coords, t_data *data)
 	vars.p = 2 * vars.dy - vars.dx;
 	while (i < vars.dx + 1)
 	{
-		ft_pixel_put(coords.x0 + i, coords.y0, data, 0xFFFFFF);
+		ft_pixel_put(coords.x0 + i, coords.y0, data, color);
 		if (vars.p >= 0)
 		{
 			coords.y0 += vars.dir;
@@ -59,7 +59,7 @@ static void	draw_line_h(t_line coords, t_data *data)
 	}
 }
 
-static void	draw_line_v(t_line coords, t_data *data)
+static void	draw_line_v(t_line coords, t_data *data, int color)
 {
 	t_math	vars;
 	int	i;
@@ -69,7 +69,7 @@ static void	draw_line_v(t_line coords, t_data *data)
 	vars.p = 2 * vars.dx - vars.dy;
 	while (i < vars.dy + 1)
 	{
-		ft_pixel_put(coords.x0, coords.y0 + i, data, 0xFFFFFF);
+		ft_pixel_put(coords.x0, coords.y0 + i, data, color);
 		if (vars.p >= 0)
 		{
 			coords.x0 += vars.dir;
@@ -81,29 +81,24 @@ static void	draw_line_v(t_line coords, t_data *data)
 
 }
 
-void	draw_line(t_line coords, t_data *data, t_map *map, t_draw *apply)
+void	draw_line(t_line coords, t_data *data, t_app *app)
 {
 	int	z0;
 	int	z1;
+	int	color0;
+	int	color1;
 
-	z0 = map->z[coords.y0][coords.x0].z;
-	z1 = map->z[coords.y1][coords.x1].z;
-	coords.x0 -= map->width / 2;
-	coords.y0 -= map->height / 2;
-	coords.x1 -= map->width / 2;
-	coords.y1 -= map->height / 2;
-	coords.x0 *= apply->zoom;
-	coords.y0 *= apply->zoom;
-	coords.x1 *= apply->zoom;
-	coords.y1 *= apply->zoom;
+	z0 = app->map->z[coords.y0][coords.x0].z;
+	z1 = app->map->z[coords.y1][coords.x1].z;
+	color0 = app->map->z[coords.y0][coords.x0].z;
+	color1 = app->map->z[coords.y1][coords.x1].z;
+	center_axis(&coords, app->map);
+	zoom(&coords, &z0, &z1, &app->transform);
 	isometric(&coords.x0, &coords.y0, z0);
 	isometric(&coords.x1, &coords.y1, z1);
-	coords.x0 += WIN_WIDTH / 2;
-	coords.y0 += WIN_HEIGHT / 2;
-	coords.x1 += WIN_WIDTH / 2;
-	coords.y1 += WIN_HEIGHT / 2;
+	center(&coords);
 	if (abs(coords.x1 - coords.x0) > abs(coords.y1 - coords.y0))
-		draw_line_h(coords, data);
+		draw_line_h(coords, data, color0);
 	else
-		draw_line_v(coords, data);
+		draw_line_v(coords, data, color1);
 }

@@ -6,7 +6,7 @@
 /*   By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 16:43:49 by jcesar-s          #+#    #+#             */
-/*   Updated: 2025/08/06 20:43:14 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/08/11 18:31:49 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	valid_suffix(char *filename)
 	const char	*suffix = ".fdf";
 	char		*result;
 
+	open_correctly(filename);
 	result = ft_strrchr(filename, '.');
 	if (ft_strncmp(result, suffix, ft_strlen(result)) == 0)
 		return (1);

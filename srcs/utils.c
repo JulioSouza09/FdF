@@ -6,7 +6,7 @@
 /*   By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 17:36:42 by jcesar-s          #+#    #+#             */
-/*   Updated: 2025/08/07 18:29:21 by joel             ###   ########.fr       */
+/*   Updated: 2025/08/11 18:48:05 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ int	ft_atoi_hex(char *nbr)
 	{
 		result *= 16;
 		if (nbr[i] >= 'a' && nbr[i] <= 'f')
-			result += nbr[i] - 'a';
+			result += nbr[i] - 'a' + 10;
 		else if (nbr[i] >= 'A' && nbr[i] <= 'F')
-			result += nbr[i] - 'A';
+			result += nbr[i] - 'A' + 10;
 		else if (nbr[i] >= '0' && nbr[i] <= '9')
 			result += nbr[i] - '0';
 		++i;
