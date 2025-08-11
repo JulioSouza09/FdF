@@ -6,7 +6,7 @@
 /*   By: joel <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 13:23:15 by joel              #+#    #+#             */
-/*   Updated: 2025/08/07 18:37:33 by joel             ###   ########.fr       */
+/*   Updated: 2025/08/10 20:42:59 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,27 @@ static void	draw_line_v(t_line coords, t_data *data)
 
 }
 
-void	draw_line(t_line coords, t_data *data)
+void	draw_line(t_line coords, t_data *data, t_map *map, t_draw *apply)
 {
+	int	z0;
+	int	z1;
+
+	z0 = map->z[coords.y0][coords.x0].z;
+	z1 = map->z[coords.y1][coords.x1].z;
+	coords.x0 -= map->width / 2;
+	coords.y0 -= map->height / 2;
+	coords.x1 -= map->width / 2;
+	coords.y1 -= map->height / 2;
+	coords.x0 *= apply->zoom;
+	coords.y0 *= apply->zoom;
+	coords.x1 *= apply->zoom;
+	coords.y1 *= apply->zoom;
+	isometric(&coords.x0, &coords.y0, z0);
+	isometric(&coords.x1, &coords.y1, z1);
+	coords.x0 += WIN_WIDTH / 2;
+	coords.y0 += WIN_HEIGHT / 2;
+	coords.x1 += WIN_WIDTH / 2;
+	coords.y1 += WIN_HEIGHT / 2;
 	if (abs(coords.x1 - coords.x0) > abs(coords.y1 - coords.y0))
 		draw_line_h(coords, data);
 	else

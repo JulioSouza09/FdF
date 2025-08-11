@@ -6,7 +6,7 @@
 /*   By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 12:36:58 by jcesar-s          #+#    #+#             */
-/*   Updated: 2025/08/07 14:26:30 by joel             ###   ########.fr       */
+/*   Updated: 2025/08/10 20:47:45 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ t_app	*init_app(char *filename)
 	tmp.img = mlx_new_image(app->mlx, WIN_WIDTH, WIN_HEIGHT);
 	tmp.addr = mlx_get_data_addr(tmp.img, &tmp.bpp, &tmp.line_len, &tmp.end);
 	app->img = tmp;
+	app->transform.zoom = 40;
 	return (app);
 }
 

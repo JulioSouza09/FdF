@@ -6,7 +6,7 @@
 /*   By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 12:42:07 by jcesar-s          #+#    #+#             */
-/*   Updated: 2025/08/10 12:58:41 by joel             ###   ########.fr       */
+/*   Updated: 2025/08/10 18:45:57 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <stdio.h>
 # include <errno.h>
 # include <mlx.h>
+# include <math.h>
 # include "libft.h"
 
 typedef	struct	s_point
@@ -43,12 +44,20 @@ typedef struct	s_data
 	int		end;
 }	t_data;
 
+typedef struct s_draw
+{
+	int	zoom;
+	int	translate_x;
+	int	translate_y;
+}	t_draw;
+
 typedef struct	s_app
 {
 	void	*mlx;
 	void	*win;
 	t_data	img;
 	t_map	*map;
+	t_draw	transform;
 }	t_app;
 
 typedef struct	s_math
@@ -93,12 +102,13 @@ t_app	*init_app(char *filename);
 void	close_program(t_app *program);
 
 /***** Draw line *****/
-void	draw_line(t_line coords, t_data *data);
+void	draw_line(t_line coords, t_data *data, t_map *map, t_draw *apply);
 
 /***** Draw utils *****/
 t_line	init_coords(int x0, int y0, int x1, int y1);
 
 /***** Render *****/
 void	render(t_app *app);
+void	isometric(int *x, int *y, int z);
 
 #endif
