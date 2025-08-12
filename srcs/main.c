@@ -6,7 +6,7 @@
 /*   By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 15:41:53 by jcesar-s          #+#    #+#             */
-/*   Updated: 2025/08/11 17:13:00 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/08/12 16:08:05 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,12 @@ int	main(int argc, char **argv)
 		ft_putendl_fd("FdF: Initialization error!", 2);
 		return (4);
 	}
+	//for (int i = 0; i < app->map->height; i++)
+	//{
+	//	for (int j = 0; j < app->map->width; j++)
+	//		ft_printf("%d ", app->map->z[i][j].color);
+	//	ft_printf("\n");
+	//}
 	render(app);
 	init_hooks(app);
 	mlx_loop(app->mlx);

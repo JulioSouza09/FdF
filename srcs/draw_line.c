@@ -6,7 +6,7 @@
 /*   By: joel <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 13:23:15 by joel              #+#    #+#             */
-/*   Updated: 2025/08/11 18:29:59 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/08/12 18:15:42 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ static void	draw_line_v(t_line coords, t_data *data, int color)
 
 }
 
+
 void	draw_line(t_line coords, t_data *data, t_app *app)
 {
 	int	z0;
@@ -90,13 +91,17 @@ void	draw_line(t_line coords, t_data *data, t_app *app)
 
 	z0 = app->map->z[coords.y0][coords.x0].z;
 	z1 = app->map->z[coords.y1][coords.x1].z;
-	color0 = app->map->z[coords.y0][coords.x0].z;
-	color1 = app->map->z[coords.y1][coords.x1].z;
+	color0 = app->map->z[coords.y0][coords.x0].color;
+	color1 = app->map->z[coords.y1][coords.x1].color;
 	center_axis(&coords, app->map);
 	zoom(&coords, &z0, &z1, &app->transform);
-	isometric(&coords.x0, &coords.y0, z0);
-	isometric(&coords.x1, &coords.y1, z1);
+	if (app->transform.iso == TRUE)
+	{
+		isometric(&coords.x0, &coords.y0, z0);
+		isometric(&coords.x1, &coords.y1, z1);
+	}
 	center(&coords);
+	translate(&coords, &app->transform);
 	if (abs(coords.x1 - coords.x0) > abs(coords.y1 - coords.y0))
 		draw_line_h(coords, data, color0);
 	else

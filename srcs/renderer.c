@@ -6,7 +6,7 @@
 /*   By: joel <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 21:00:22 by joel              #+#    #+#             */
-/*   Updated: 2025/08/11 18:23:26 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/08/12 17:04:20 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	isometric(int *x, int *y, int z)
 
 	tmp = *x;
 	*x = (tmp - *y) * cos(0.523599);
-	*y = (tmp + *y) * sin(0.523599) - z;
+	*y = (tmp + *y) * sin(0.523599) - z / 15;
 }
 
 int	render(t_app *app)
@@ -28,6 +28,7 @@ int	render(t_app *app)
 	t_line	coords;
 
 	i = -1;
+	ft_memset(app->img.addr, 0, WIN_WIDTH * WIN_HEIGHT * 4);
 	while (++i < app->map->height)
 	{
 		j = -1;

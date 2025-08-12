@@ -6,13 +6,14 @@
 /*   By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 12:42:07 by jcesar-s          #+#    #+#             */
-/*   Updated: 2025/08/11 18:26:48 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/08/12 14:16:28 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
 # define TRUE 1
+# define FALSE 0
 # define WIN_WIDTH 1600
 # define WIN_HEIGHT 900
 
@@ -49,6 +50,8 @@ typedef struct s_draw
 	int	zoom;
 	int	translate_x;
 	int	translate_y;
+	int	iso;
+	int	z;
 }	t_draw;
 
 typedef struct	s_app
@@ -109,6 +112,8 @@ t_line	init_coords(int x0, int y0, int x1, int y1);
 void	center_axis(t_line *coords, t_map *map);
 void	zoom(t_line *coords, int *z0, int *z1, t_draw *apply);
 void	center(t_line *coords);
+void	update_z(int *z, int value);
+int		translate(t_line *coords, t_draw *transform);
 
 /***** Render *****/
 int	render(t_app *app);
