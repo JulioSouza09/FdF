@@ -6,7 +6,7 @@
 /*   By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 12:36:58 by jcesar-s          #+#    #+#             */
-/*   Updated: 2025/08/12 16:59:04 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/08/13 14:58:09 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ t_app	*init_app(char *filename)
 	app->transform.zoom = 1;
 	app->transform.z = 1;
 	app->transform.iso = TRUE;
+	app->transform.angle = 0;
 	return (app);
 }
 

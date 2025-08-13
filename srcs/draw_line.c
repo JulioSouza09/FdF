@@ -6,7 +6,7 @@
 /*   By: joel <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 13:23:15 by joel              #+#    #+#             */
-/*   Updated: 2025/08/13 12:08:42 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/08/13 15:53:42 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,35 @@ float	get_z_increment(int	z, float factor)
 	return (increment);
 }
 
+double	degrees_to_radians(double degree)
+{
+	return (degree * (M_PI / 180));
+}
+
+void	rotate_point(double angle, int *x, int *y, int *z)
+{
+	int tmp_x; // delete me
+	int	tmp_y;
+	int	tmp_z;
+
+	if (!angle)
+		return ;
+	//*x = *x;
+	//tmp_y = *y;
+	//tmp_z = *z;
+	//*y = round(tmp_y * cos(angle) + tmp_z * sin(angle));
+	//*z = round(tmp_y * cos(angle) - tmp_y * sin(angle));
+	tmp_x = *x;
+	tmp_y = *y;
+	tmp_z = *z;
+	//*x = cos(angle) * tmp_x + sin(angle) * tmp_z;
+	//*y = tmp_y;
+	//*z = -sin(angle) * tmp_x + cos(angle) * tmp_z;
+	*x = tmp_x * cos(angle) + tmp_y * -sin(angle);
+	*y = tmp_x * sin(angle) + tmp_y * cos(angle);
+	*z = tmp_z;
+}
+
 void	draw_line(t_line coords, t_data *data, t_app *app)
 {
 	int	z0;
@@ -111,6 +140,8 @@ void	draw_line(t_line coords, t_data *data, t_app *app)
 		isometric(&coords.x0, &coords.y0, z0);
 		isometric(&coords.x1, &coords.y1, z1);
 	}
+	rotate_point(degrees_to_radians(app->transform.angle), &coords.x0, &coords.y0, &z0);
+	rotate_point(degrees_to_radians(app->transform.angle), &coords.x1, &coords.y1, &z1);
 	center(&coords);
 	translate(&coords, &app->transform);
 	if (abs(coords.x1 - coords.x0) > abs(coords.y1 - coords.y0))

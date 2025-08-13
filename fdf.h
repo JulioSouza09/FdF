@@ -6,7 +6,7 @@
 /*   By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 12:42:07 by jcesar-s          #+#    #+#             */
-/*   Updated: 2025/08/13 12:01:20 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/08/13 14:57:43 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef struct s_draw
 	int		translate_y;
 	int		iso;
 	float	z;
+	float	angle;
 }	t_draw;
 
 typedef struct	s_app
