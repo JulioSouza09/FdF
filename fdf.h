@@ -6,7 +6,7 @@
 /*   By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 12:42:07 by jcesar-s          #+#    #+#             */
-/*   Updated: 2025/08/12 14:16:28 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/08/13 12:01:20 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,11 @@ typedef struct	s_data
 
 typedef struct s_draw
 {
-	int	zoom;
-	int	translate_x;
-	int	translate_y;
-	int	iso;
-	int	z;
+	int		zoom;
+	int		translate_x;
+	int		translate_y;
+	int		iso;
+	float	z;
 }	t_draw;
 
 typedef struct	s_app

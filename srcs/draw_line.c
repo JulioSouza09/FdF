@@ -6,7 +6,7 @@
 /*   By: joel <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 13:23:15 by joel              #+#    #+#             */
-/*   Updated: 2025/08/12 18:15:42 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/08/13 12:08:42 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,15 @@ static void	draw_line_v(t_line coords, t_data *data, int color)
 
 }
 
+float	get_z_increment(int	z, float factor)
+{
+	float	increment;
+
+	increment = factor * sqrt(abs(z));
+	if (z > 0)
+		return (-increment);
+	return (increment);
+}
 
 void	draw_line(t_line coords, t_data *data, t_app *app)
 {
@@ -91,6 +100,8 @@ void	draw_line(t_line coords, t_data *data, t_app *app)
 
 	z0 = app->map->z[coords.y0][coords.x0].z;
 	z1 = app->map->z[coords.y1][coords.x1].z;
+	z0 += get_z_increment(z0, app->transform.z);
+	z1 += get_z_increment(z1, app->transform.z);
 	color0 = app->map->z[coords.y0][coords.x0].color;
 	color1 = app->map->z[coords.y1][coords.x1].color;
 	center_axis(&coords, app->map);
