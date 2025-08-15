@@ -6,7 +6,7 @@
 /*   By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 12:42:07 by jcesar-s          #+#    #+#             */
-/*   Updated: 2025/08/15 17:36:54 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/08/15 18:52:56 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,8 +134,8 @@ int		create_color(int current_z, int z_range, int min_z);
 /***** Map transformer *****/
 void	rotate_x(double angle, int *x, int *y, int *z);
 void	zoom(t_line *coords, int *z0, int *z1, t_draw *apply);
+void	isometric(int *x, int *y, int z);
 float	get_z_increment(int	z, float factor);
 int		translate(t_line *coords, t_draw *transform);
-void	isometric(int *x, int *y, int z);
 
 #endif
