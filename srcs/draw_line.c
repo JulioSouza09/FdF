@@ -6,7 +6,7 @@
 /*   By: joel <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 13:23:15 by joel              #+#    #+#             */
-/*   Updated: 2025/08/13 15:53:42 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/08/15 17:35:48 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ static void	draw_line_h(t_line coords, t_data *data, int color)
 	t_math	vars;
 	int	i;
 
+	(void)color;
 	handle_octants(&vars, &coords, coords.x0 > coords.x1, &vars.dy);
 	i = 0;
 	vars.p = 2 * vars.dy - vars.dx;
@@ -64,6 +65,7 @@ static void	draw_line_v(t_line coords, t_data *data, int color)
 	t_math	vars;
 	int	i;
 
+	(void)color;
 	handle_octants(&vars, &coords, coords.y0 > coords.y1, &vars.dx);
 	i = 0;
 	vars.p = 2 * vars.dx - vars.dy;
@@ -81,58 +83,17 @@ static void	draw_line_v(t_line coords, t_data *data, int color)
 
 }
 
-float	get_z_increment(int	z, float factor)
-{
-	float	increment;
-
-	increment = factor * sqrt(abs(z));
-	if (z > 0)
-		return (-increment);
-	return (increment);
-}
-
-double	degrees_to_radians(double degree)
-{
-	return (degree * (M_PI / 180));
-}
-
-void	rotate_point(double angle, int *x, int *y, int *z)
-{
-	int tmp_x; // delete me
-	int	tmp_y;
-	int	tmp_z;
-
-	if (!angle)
-		return ;
-	//*x = *x;
-	//tmp_y = *y;
-	//tmp_z = *z;
-	//*y = round(tmp_y * cos(angle) + tmp_z * sin(angle));
-	//*z = round(tmp_y * cos(angle) - tmp_y * sin(angle));
-	tmp_x = *x;
-	tmp_y = *y;
-	tmp_z = *z;
-	//*x = cos(angle) * tmp_x + sin(angle) * tmp_z;
-	//*y = tmp_y;
-	//*z = -sin(angle) * tmp_x + cos(angle) * tmp_z;
-	*x = tmp_x * cos(angle) + tmp_y * -sin(angle);
-	*y = tmp_x * sin(angle) + tmp_y * cos(angle);
-	*z = tmp_z;
-}
-
 void	draw_line(t_line coords, t_data *data, t_app *app)
 {
 	int	z0;
 	int	z1;
-	int	color0;
-	int	color1;
+	int	color;
 
 	z0 = app->map->z[coords.y0][coords.x0].z;
 	z1 = app->map->z[coords.y1][coords.x1].z;
 	z0 += get_z_increment(z0, app->transform.z);
 	z1 += get_z_increment(z1, app->transform.z);
-	color0 = app->map->z[coords.y0][coords.x0].color;
-	color1 = app->map->z[coords.y1][coords.x1].color;
+	color = app->map->z[coords.y0][coords.x0].color;
 	center_axis(&coords, app->map);
 	zoom(&coords, &z0, &z1, &app->transform);
 	if (app->transform.iso == TRUE)
@@ -140,12 +101,12 @@ void	draw_line(t_line coords, t_data *data, t_app *app)
 		isometric(&coords.x0, &coords.y0, z0);
 		isometric(&coords.x1, &coords.y1, z1);
 	}
-	rotate_point(degrees_to_radians(app->transform.angle), &coords.x0, &coords.y0, &z0);
-	rotate_point(degrees_to_radians(app->transform.angle), &coords.x1, &coords.y1, &z1);
+	rotate_x(degrees_to_radians(app->transform.angle), &coords.x0, &coords.y0, &z0);
+	rotate_x(degrees_to_radians(app->transform.angle), &coords.x1, &coords.y1, &z1);
 	center(&coords);
 	translate(&coords, &app->transform);
 	if (abs(coords.x1 - coords.x0) > abs(coords.y1 - coords.y0))
-		draw_line_h(coords, data, color0);
+		draw_line_h(coords, data, color);
 	else
-		draw_line_v(coords, data, color1);
+		draw_line_v(coords, data, color);
 }

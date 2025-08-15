@@ -6,7 +6,7 @@
 /*   By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 17:47:13 by jcesar-s          #+#    #+#             */
-/*   Updated: 2025/08/12 18:53:21 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/08/15 16:29:29 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ t_point	*get_file_values(char **line_split, int width)
 		if (color)
 			values[i].color = ft_atoi_hex(++color);
 		else
-			values[i].color = 0x860029 + values[i].z * 3;
+			values[i].color = create_color(i, width, 0);
 		free(line_split[i++]);
 	}
 	free(line_split);

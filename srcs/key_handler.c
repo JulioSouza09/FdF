@@ -6,7 +6,7 @@
 /*   By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:42:21 by jcesar-s          #+#    #+#             */
-/*   Updated: 2025/08/13 15:23:58 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/08/15 17:15:11 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@
 
 int	handle_keypress(int keycode, t_app *app)
 {
-	ft_printf("%d\n", keycode);
 	if (keycode == ESC)
 		close_program(app);
 	if (keycode == MINUS)

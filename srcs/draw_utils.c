@@ -6,7 +6,7 @@
 /*   By: joel <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 18:30:00 by joel              #+#    #+#             */
-/*   Updated: 2025/08/12 18:15:22 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/08/15 17:35:14 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,6 @@ void	center_axis(t_line *coords, t_map *map)
 	coords->y1 -= map->height / 2;
 }
 
-void	zoom(t_line *coords, int *z0, int *z1, t_draw *apply)
-{
-	*z0 *= apply->zoom;
-	*z1 *= apply->zoom;
-	coords->x0 *= apply->zoom;
-	coords->y0 *= apply->zoom;
-	coords->x1 *= apply->zoom;
-	coords->y1 *= apply->zoom;
-}
-
 void	center(t_line *coords)
 {
 	coords->x0 += WIN_WIDTH / 2;
@@ -49,11 +39,7 @@ void	center(t_line *coords)
 	coords->y1 += WIN_HEIGHT / 2;
 }
 
-int	translate(t_line *coords, t_draw *transform)
+double	degrees_to_radians(double degree)
 {
-	coords->x0 += transform->translate_x;
-	coords->y0 += transform->translate_y;
-	coords->x1 += transform->translate_x;
-	coords->y1 += transform->translate_y;
-	return (0);
+	return (degree * (M_PI / 180));
 }

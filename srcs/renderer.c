@@ -6,20 +6,11 @@
 /*   By: joel <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 21:00:22 by joel              #+#    #+#             */
-/*   Updated: 2025/08/12 17:04:20 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/08/15 17:36:26 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-
-void	isometric(int *x, int *y, int z)
-{
-	int	tmp;
-
-	tmp = *x;
-	*x = (tmp - *y) * cos(0.523599);
-	*y = (tmp + *y) * sin(0.523599) - z / 15;
-}
 
 int	render(t_app *app)
 {
