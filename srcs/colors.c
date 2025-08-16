@@ -6,7 +6,7 @@
 /*   By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 12:47:16 by jcesar-s          #+#    #+#             */
-/*   Updated: 2025/08/16 18:07:47 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/08/16 21:15:50 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,15 @@
 int	get_new_color(t_color color1, t_color color2, float percent)
 {
 	t_color	result;
+	int		new_color;
 
 	result.r = color1.r + percent * (color2.r - color1.r);
 	result.g = color1.g + percent * (color2.g - color1.g);
 	result.b = color1.b + percent * (color2.b - color1.b);
-	return (result.r << 16 | result.g << 8 | result.b);
+	new_color = result.r << 16 | result.g << 8 | result.b;
+	if (new_color < 0 || new_color > 0xffffff)
+		new_color = END_COLOR;
+	return (new_color);
 }
 
 void	get_rgb(int color, t_color *new_color)

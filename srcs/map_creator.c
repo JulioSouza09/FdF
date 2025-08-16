@@ -6,7 +6,7 @@
 /*   By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 17:17:52 by jcesar-s          #+#    #+#             */
-/*   Updated: 2025/08/16 11:21:24 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/08/16 21:20:58 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ t_map	*get_map(char *filename)
 
 	size_fd = open_correctly(filename);
 	parse_fd = open_correctly(filename);
-	map = malloc(sizeof(t_map));
+	map = ft_calloc(1, sizeof(t_map));
 	if (!map)
 		return (NULL);
-	ft_memset(map, 0, sizeof(t_map));
 	if (get_dimensions(size_fd, map) == -1)
 	{
+		ft_putendl_fd("FdF: Could not read file.", 2);
 		free(map);
 		exit(3);
 	}

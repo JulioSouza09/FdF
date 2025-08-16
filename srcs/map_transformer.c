@@ -6,7 +6,7 @@
 /*   By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:28:37 by jcesar-s          #+#    #+#             */
-/*   Updated: 2025/08/16 18:34:48 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/08/16 21:19:27 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ void	zoom(t_line *coords, int *z0, int *z1, t_draw *apply)
 		apply->zoom = 1;
 		return ;
 	}
-	else if (apply->zoom > 30)
+	else if (apply->zoom > 100)
 	{
-		apply->zoom = 30;
+		apply->zoom = 100;
 		return ;
 	}
 	*z0 *= apply->zoom;
