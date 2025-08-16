@@ -6,7 +6,7 @@
 /*   By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 17:36:42 by jcesar-s          #+#    #+#             */
-/*   Updated: 2025/08/16 09:14:31 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/08/16 18:46:52 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	get_min_max(t_map *map, int *min, int *max)
 			if (map->z[i][j].z < *min)
 				*min = map->z[i][j].z;
 			if (map->z[i][j].z > *max)
-				*max= map->z[i][j].z;
+				*max = map->z[i][j].z;
 			++j;
 		}
 		++i;

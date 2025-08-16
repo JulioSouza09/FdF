@@ -6,7 +6,7 @@
 /*   By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:28:37 by jcesar-s          #+#    #+#             */
-/*   Updated: 2025/08/15 17:36:37 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/08/16 18:34:48 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	translate(t_line *coords, t_draw *transform)
 	return (0);
 }
 
-float	get_z_increment(int	z, float factor)
+float	get_z_increment(int z, float factor)
 {
 	float	increment;
 

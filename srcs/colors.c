@@ -6,7 +6,7 @@
 /*   By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 12:47:16 by jcesar-s          #+#    #+#             */
-/*   Updated: 2025/08/16 11:39:52 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/08/16 18:07:47 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 //#define START_COLOR 0xc31432
 //#define	END_COLOR 0x240b36
 #define END_COLOR 0xcc5333
-#define	START_COLOR 0x23074d
+#define START_COLOR	0x23074d
 
 int	get_new_color(t_color color1, t_color color2, float percent)
 {
@@ -43,5 +43,4 @@ int	create_color(int current_z, int z_range, int min_z)
 	get_rgb(END_COLOR, &color2);
 	index = current_z - min_z;
 	return (get_new_color(color1, color2, (float)index / z_range));
-
 }

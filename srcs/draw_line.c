@@ -6,7 +6,7 @@
 /*   By: joel <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 13:23:15 by joel              #+#    #+#             */
-/*   Updated: 2025/08/16 12:30:37 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/08/16 18:11:20 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void	handle_octants(t_math *vars, t_line *coords, int flag, int *delta)
 static void	draw_line_h(t_line coords, t_data *data, int color)
 {
 	t_math	vars;
-	int	i;
+	int		i;
 
 	(void)color;
 	handle_octants(&vars, &coords, coords.x0 > coords.x1, &vars.dy);
@@ -63,7 +63,7 @@ static void	draw_line_h(t_line coords, t_data *data, int color)
 static void	draw_line_v(t_line coords, t_data *data, int color)
 {
 	t_math	vars;
-	int	i;
+	int		i;
 
 	(void)color;
 	handle_octants(&vars, &coords, coords.y0 > coords.y1, &vars.dx);
@@ -100,8 +100,8 @@ void	draw_line(t_line coords, t_data *data, t_app *app)
 		isometric(&coords.x0, &coords.y0, z0);
 		isometric(&coords.x1, &coords.y1, z1);
 	}
-	rotate_x(degrees_to_radians(app->transform.angle), &coords.x0, &coords.y0, &z0);
-	rotate_x(degrees_to_radians(app->transform.angle), &coords.x1, &coords.y1, &z1);
+	rotate_x(degrees_to_rad(app->transform.angle), &coords.x0, &coords.y0, &z0);
+	rotate_x(degrees_to_rad(app->transform.angle), &coords.x1, &coords.y1, &z1);
 	center(&coords);
 	translate(&coords, &app->transform);
 	if (abs(coords.x1 - coords.x0) > abs(coords.y1 - coords.y0))

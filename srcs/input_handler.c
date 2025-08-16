@@ -6,7 +6,7 @@
 /*   By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 16:43:49 by jcesar-s          #+#    #+#             */
-/*   Updated: 2025/08/11 18:31:49 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/08/16 18:13:33 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,3 @@ int	open_correctly(char *filename)
 	}
 	return (fd);
 }
-

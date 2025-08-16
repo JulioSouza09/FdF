@@ -6,13 +6,13 @@
 /*   By: joel <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 18:30:00 by joel              #+#    #+#             */
-/*   Updated: 2025/08/15 17:35:14 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/08/16 18:11:58 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-t_line init_coords(int x0, int y0, int x1, int y1)
+t_line	init_coords(int x0, int y0, int x1, int y1)
 {
 	t_line	coords;
 
@@ -39,7 +39,7 @@ void	center(t_line *coords)
 	coords->y1 += WIN_HEIGHT / 2;
 }
 
-double	degrees_to_radians(double degree)
+double	degrees_to_rad(double degree)
 {
 	return (degree * (M_PI / 180));
 }

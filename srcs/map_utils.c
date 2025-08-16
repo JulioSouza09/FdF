@@ -6,13 +6,13 @@
 /*   By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 17:47:13 by jcesar-s          #+#    #+#             */
-/*   Updated: 2025/08/16 11:21:53 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/08/16 18:37:59 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-size_t	count_columns(char const *str, char delimeter, int *min, int *max)
+size_t	count_cols(char const *str, char delimeter, int *min, int *max)
 {
 	size_t	len;
 	int		z;
@@ -44,7 +44,7 @@ int	get_dimensions(int fd, t_map *map)
 	line = get_next_line(fd);
 	if (!line)
 		return (-1);
-	map->width = count_columns(line, ' ', &map->z_min, &map->z_max);
+	map->width = count_cols(line, ' ', &map->z_min, &map->z_max);
 	map->height = 1;
 	while (TRUE)
 	{
@@ -52,7 +52,7 @@ int	get_dimensions(int fd, t_map *map)
 		line = get_next_line(fd);
 		if (!line)
 			break ;
-		if ((int)count_columns(line, ' ', &map->z_min, &map->z_max) != map->width)
+		if ((int)count_cols(line, ' ', &map->z_min, &map->z_max) != map->width)
 		{
 			ft_putendl_fd("Invalid map", 2);
 			free(line);
@@ -68,10 +68,12 @@ t_point	*get_file_values(char **line_split, t_map *map)
 	t_point	*values;
 	char	*color;
 	int		i;
+	int		range;
 
 	values = malloc(sizeof(t_point) * map->width);
 	if (!values)
 		return (NULL);
+	range = map->z_max - map->z_min;
 	i = 0;
 	while (line_split[i])
 	{
@@ -80,7 +82,7 @@ t_point	*get_file_values(char **line_split, t_map *map)
 		if (color)
 			values[i].color = ft_atoi_hex(++color);
 		else
-			values[i].color = create_color(values[i].z, map->z_max - map->z_min, map->z_min);
+			values[i].color = create_color(values[i].z, range, map->z_min);
 		free(line_split[i++]);
 	}
 	free(line_split);

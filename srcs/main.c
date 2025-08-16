@@ -6,12 +6,11 @@
 /*   By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 15:41:53 by jcesar-s          #+#    #+#             */
-/*   Updated: 2025/08/15 12:56:36 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/08/16 18:33:28 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-
 
 int	main(int argc, char **argv)
 {
@@ -33,10 +32,6 @@ int	main(int argc, char **argv)
 		ft_putendl_fd("FdF: Initialization error!", 2);
 		return (4);
 	}
-	//int	i;
-	//int	j;
-	//get_min_max(app->map, &i, &j);
-	//ft_printf("min: %d\nmax: %d\n", i, j);
 	render(app);
 	init_hooks(app);
 	mlx_loop(app->mlx);
@@ -85,4 +80,3 @@ int	main(int argc, char **argv)
 // 	ft_printf("\n");
 // }
 // destroy_map(map);
-

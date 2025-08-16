@@ -6,7 +6,7 @@
 /*   By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 12:42:07 by jcesar-s          #+#    #+#             */
-/*   Updated: 2025/08/16 11:22:02 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/08/16 18:55:37 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,25 @@
 # define FALSE 0
 # define WIN_WIDTH 1600
 # define WIN_HEIGHT 900
+# define KEYPRESS 2
+# define DESTROYNOTIFY 17
+# define ESC 65307
+# define MINUS 65453
+# define PLUS 65451
+# define O 111
+# define I 105
+# define Z 122
+# define X 120
+# define A 97
+# define D 100
+# define ARROWUP 65362
+# define ARROWDOWN 65364
+# define ARROWLEFT 65361
+# define ARROWRIGHT 65363
+# define TRANSLATE_STEP 10
+# define Z_FACTOR 0.5
+# define ZOOM_FACTOR 1
+# define ROTATION_FACTOR 5
 
 # include <stdio.h>
 # include <errno.h>
@@ -23,22 +42,22 @@
 # include <math.h>
 # include "libft.h"
 
-typedef	struct	s_point
+typedef struct s_point
 {
 	int	z;
 	int	color;
 }	t_point;
 
-typedef struct	s_map
+typedef struct s_map
 {
 	t_point	**z;
-	int 	width;
+	int		width;
 	int		height;
 	int		z_min;
 	int		z_max;
 }	t_map;
 
-typedef struct	s_data
+typedef struct s_data
 {
 	void	*img;
 	char	*addr;
@@ -57,7 +76,7 @@ typedef struct s_draw
 	float	angle;
 }	t_draw;
 
-typedef struct	s_app
+typedef struct s_app
 {
 	void	*mlx;
 	void	*win;
@@ -66,7 +85,7 @@ typedef struct	s_app
 	t_draw	transform;
 }	t_app;
 
-typedef struct	s_math
+typedef struct s_math
 {
 	int	dx;
 	int	dy;
@@ -74,7 +93,7 @@ typedef struct	s_math
 	int	dir;
 }	t_math;
 
-typedef struct	s_line
+typedef struct s_line
 {
 	int	x0;
 	int	y0;
@@ -82,7 +101,7 @@ typedef struct	s_line
 	int	y1;
 }	t_line;
 
-typedef struct	s_color
+typedef struct s_color
 {
 	int	r;
 	int	g;
@@ -113,7 +132,7 @@ void	get_min_max(t_map *map, int *min, int *max);
 
 /***** Init app *****/
 t_app	*init_app(char *filename);
-int	close_program(t_app *program);
+int		close_program(t_app *program);
 
 /***** Draw line *****/
 void	draw_line(t_line coords, t_data *data, t_app *app);
@@ -122,10 +141,10 @@ void	draw_line(t_line coords, t_data *data, t_app *app);
 t_line	init_coords(int x0, int y0, int x1, int y1);
 void	center_axis(t_line *coords, t_map *map);
 void	center(t_line *coords);
-double	degrees_to_radians(double degree);
+double	degrees_to_rad(double degree);
 
 /***** Render *****/
-int	render(t_app *app);
+int		render(t_app *app);
 
 /***** Key handler *****/
 void	init_hooks(t_app *app);
@@ -137,7 +156,14 @@ int		create_color(int current_z, int z_range, int min_z);
 void	rotate_x(double angle, int *x, int *y, int *z);
 void	zoom(t_line *coords, int *z0, int *z1, t_draw *apply);
 void	isometric(int *x, int *y, int z);
-float	get_z_increment(int	z, float factor);
+float	get_z_increment(int z, float factor);
 int		translate(t_line *coords, t_draw *transform);
+
+/***** Events *****/
+void	handle_zoom(int keycode, t_app *app);
+void	handle_translation(int keycode, t_app *app);
+void	handle_projection(int keycode, t_app *app);
+void	handle_z(int keycode, t_app *app);
+void	handle_rotation(int keycode, t_app *app);
 
 #endif
