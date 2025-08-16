@@ -6,7 +6,7 @@
 /*   By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 17:36:42 by jcesar-s          #+#    #+#             */
-/*   Updated: 2025/08/15 17:04:23 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/08/16 09:14:31 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,27 @@ void	ft_swap(int *a, int *b)
 	tmp = *a;
 	*a = *b;
 	*b = tmp;
+}
+
+void	get_min_max(t_map *map, int *min, int *max)
+{
+	int	i;
+	int	j;
+
+	*min = map->z[0][0].z;
+	*max = map->z[0][0].z;
+	i = 0;
+	while (i < map->height)
+	{
+		j = 0;
+		while (j < map->width)
+		{
+			if (map->z[i][j].z < *min)
+				*min = map->z[i][j].z;
+			if (map->z[i][j].z > *max)
+				*max= map->z[i][j].z;
+			++j;
+		}
+		++i;
+	}
 }

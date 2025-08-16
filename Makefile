@@ -6,7 +6,7 @@
 #    By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/26 13:02:42 by jcesar-s          #+#    #+#              #
-#    Updated: 2025/08/15 17:34:04 by jcesar-s         ###   ########.fr        #
+#    Updated: 2025/08/16 11:53:40 by jcesar-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ INCDIR=.
 # 	echo $(OBJS)
 
 $(ODIR)/%.o: $(CDIR)/%.c
-	$(CC) $(CFLAGS) -c $^ -o $@ -I $(INCDIR) -I $(LIBX) -I $(LIBFT) -g
+	$(CC) $(CFLAGS) -c $^ -o $@ -I $(INCDIR) -I $(LIBX) -I $(LIBFT) -g 
 
 all: $(NAME)
 

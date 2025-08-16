@@ -6,13 +6,15 @@
 /*   By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 12:47:16 by jcesar-s          #+#    #+#             */
-/*   Updated: 2025/08/15 16:28:57 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/08/16 11:39:52 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-#define	START_COLOR 0x860029
-#define END_COLOR 0x32c5c2
+//#define START_COLOR 0xc31432
+//#define	END_COLOR 0x240b36
+#define END_COLOR 0xcc5333
+#define	START_COLOR 0x23074d
 
 int	get_new_color(t_color color1, t_color color2, float percent)
 {
@@ -26,16 +28,9 @@ int	get_new_color(t_color color1, t_color color2, float percent)
 
 void	get_rgb(int color, t_color *new_color)
 {
-	int	mask;
-	int	i;
-
-	mask = 0;
-	i = 0;
-	while (i < 8)
-		mask |= (1 << i++);
-	new_color->r = ((color >> 16) & mask);
-	new_color->g = ((color >> 8) & mask);
-	new_color->b = (color & mask);
+	new_color->r = ((color >> 16) & 0xFF);
+	new_color->g = ((color >> 8) & 0xFF);
+	new_color->b = (color & 0xFF);
 }
 
 int	create_color(int current_z, int z_range, int min_z)

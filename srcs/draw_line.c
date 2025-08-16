@@ -6,7 +6,7 @@
 /*   By: joel <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 13:23:15 by joel              #+#    #+#             */
-/*   Updated: 2025/08/15 17:35:48 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/08/16 12:30:37 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ static void	draw_line_v(t_line coords, t_data *data, int color)
 		vars.p = vars.p + 2 * vars.dx;
 		++i;
 	}
-
 }
 
 void	draw_line(t_line coords, t_data *data, t_app *app)

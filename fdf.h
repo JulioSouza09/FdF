@@ -6,7 +6,7 @@
 /*   By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 12:42:07 by jcesar-s          #+#    #+#             */
-/*   Updated: 2025/08/15 18:52:56 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/08/16 11:22:02 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ typedef struct	s_map
 	t_point	**z;
 	int 	width;
 	int		height;
+	int		z_min;
+	int		z_max;
 }	t_map;
 
 typedef struct	s_data
@@ -99,10 +101,10 @@ t_map	*get_map(char *filename);
 void	destroy_map(t_map *map);
 
 /***** Map utils *****/
-int		get_dimensions(int fd, int *width, int *height);
+//int		get_dimensions(int fd, int *width, int *height, int *min, int *max);
+int		get_dimensions(int fd, t_map *map);
 void	free_z(t_point **z, int position);
 t_point	**get_z(int fd, t_map *map);
-t_point	*get_file_values(char **line_split, int width);
 
 /***** Utils *****/
 int		ft_atoi_hex(char *nbr);
