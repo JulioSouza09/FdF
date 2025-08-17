@@ -6,7 +6,7 @@
 #    By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/26 13:02:42 by jcesar-s          #+#    #+#              #
-#    Updated: 2025/08/16 18:31:13 by jcesar-s         ###   ########.fr        #
+#    Updated: 2025/08/17 17:42:46 by jcesar-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME=fdf
 CC=cc
 CFLAGS=-Wall -Wextra -Werror
 LIBX=lib/minilibx
-LIBXA=$(LIBX)/libmlx_linux.a
+LIBXA=$(LIBX)/libmlx_Linux.a
 LIBFT=lib/libft
 LIBFTA=$(LIBFT)/libft.a
 SRC=main.c input_handler.c map_creator.c map_utils.c utils.c init_app.c
@@ -25,18 +25,20 @@ ODIR=objs
 CDIR=srcs
 INCDIR=.
 
-# debug:
-# 	echo $(OBJS)
-
 $(ODIR)/%.o: $(CDIR)/%.c
+	mkdir -p $(ODIR)
 	$(CC) $(CFLAGS) -c $^ -o $@ -I $(INCDIR) -I $(LIBX) -I $(LIBFT) -g 
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
-	$(MAKE) -C $(LIBFT)
-	$(MAKE) -C $(LIBX)
-	$(CC) $(CFLAGS) $(OBJS) -L $(LIBX) -lmlx -lXext -lX11 -lm -L $(LIBFT) -lft -o $(NAME) 
+$(NAME): $(OBJS) $(LIBXA) $(LIBFTA)
+	$(CC) $(CFLAGS) $(OBJS) -L $(LIBX) -lmlx -lXext -lX11 -L $(LIBFT) -lft -lm -o $(NAME) 
+
+$(LIBFTA):
+	make -C $(LIBFT) --no-print-directory
+
+$(LIBXA):
+	make -C $(LIBX) --no-print-directory
 
 mlx:
 	rm -rf $(LIBX)
@@ -52,9 +54,11 @@ libclean:
 	rm -rf $(LIBX) $(LIBFT)
 
 clean:
+	make clean -C $(LIBFT)
 	rm -f $(OBJS)
 
 fclean: clean
+	make fclean -C $(LIBFT)
 	rm -f $(NAME)
 
 re: fclean all
