@@ -6,13 +6,13 @@
 #    By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/26 13:02:42 by jcesar-s          #+#    #+#              #
-#    Updated: 2025/08/17 17:42:46 by jcesar-s         ###   ########.fr        #
+#    Updated: 2025/08/23 10:34:44 by jcesar-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME=fdf
 CC=cc
-CFLAGS=-Wall -Wextra -Werror
+CFLAGS=-Wall -Wextra -Werror -O3
 LIBX=lib/minilibx
 LIBXA=$(LIBX)/libmlx_Linux.a
 LIBFT=lib/libft
