@@ -1,7 +1,6 @@
-objs/*
+obj/*
 fdf
-initial-resources
-lib/libft/*.o
-lib/libft/libft.a
-lib/minilibx/objs/*.a
+include/libft/*.o
+include/libft/libft.a
+include/minilibx/objs/*.a
 .standby
