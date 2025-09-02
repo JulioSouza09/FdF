@@ -1,0 +1,45 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   map_creator_bonus.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/05 17:17:52 by jcesar-s          #+#    #+#             */
+/*   Updated: 2025/08/16 21:20:58 by jcesar-s         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "fdf_bonus.h"
+
+t_map	*get_map(char *filename)
+{
+	t_map	*map;
+	int		size_fd;
+	int		parse_fd;
+
+	size_fd = open_correctly(filename);
+	parse_fd = open_correctly(filename);
+	map = ft_calloc(1, sizeof(t_map));
+	if (!map)
+		return (NULL);
+	if (get_dimensions(size_fd, map) == -1)
+	{
+		ft_putendl_fd("FdF: Could not read file.", 2);
+		free(map);
+		exit(3);
+	}
+	map->z = get_z(parse_fd, map);
+	if (!map->z)
+	{
+		destroy_map(map);
+		return (NULL);
+	}
+	return (map);
+}
+
+void	destroy_map(t_map *map)
+{
+	free_z(map->z, map->height);
+	free(map);
+}

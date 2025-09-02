@@ -1,22 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   colors.c                                           :+:      :+:    :+:   */
+/*   colors_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 12:47:16 by jcesar-s          #+#    #+#             */
-/*   Updated: 2025/09/02 12:37:21 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/08/16 21:15:50 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "fdf_bonus.h"
 //#define START_COLOR 0xc31432
 //#define	END_COLOR 0x240b36
 #define END_COLOR 0xcc5333
 #define START_COLOR	0x23074d
 
-static
 int	get_new_color(t_color color1, t_color color2, float percent)
 {
 	t_color	result;
@@ -31,7 +30,6 @@ int	get_new_color(t_color color1, t_color color2, float percent)
 	return (new_color);
 }
 
-static
 void	get_rgb(int color, t_color *new_color)
 {
 	new_color->r = ((color >> 16) & 0xFF);

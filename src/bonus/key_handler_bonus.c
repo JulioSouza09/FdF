@@ -1,21 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   key_handler.c                                      :+:      :+:    :+:   */
+/*   key_handler_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:42:21 by jcesar-s          #+#    #+#             */
-/*   Updated: 2025/09/02 12:29:35 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/08/16 18:30:04 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "fdf_bonus.h"
 
 int	handle_keypress(int keycode, t_app *app)
 {
 	if (keycode == ESC)
 		close_program(app);
+	handle_zoom(keycode, app);
+	handle_translation(keycode, app);
+	handle_projection(keycode, app);
+	handle_z(keycode, app);
+	handle_rotation(keycode, app);
 	return (0);
 }
 

@@ -1,6 +1,4 @@
 obj/*
 fdf
-include/libft/*.o
-include/libft/libft.a
-include/minilibx/objs/*.a
-.standby
+include/libft/*
+include/minilibx/*

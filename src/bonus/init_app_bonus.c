@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_app.c                                         :+:      :+:    :+:   */
+/*   init_app_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 12:36:58 by jcesar-s          #+#    #+#             */
-/*   Updated: 2025/09/02 12:32:56 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/09/02 12:46:18 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "fdf_bonus.h"
 
 t_app	*init_app(char *filename)
 {
@@ -30,7 +30,10 @@ t_app	*init_app(char *filename)
 	tmp.img = mlx_new_image(app->mlx, WIN_WIDTH, WIN_HEIGHT);
 	tmp.addr = mlx_get_data_addr(tmp.img, &tmp.bpp, &tmp.line_len, &tmp.end);
 	app->img = tmp;
-	app->scale = 20;
+	app->transform.zoom = 20;
+	app->transform.z = 1;
+	app->transform.iso = TRUE;
+	app->transform.angle = 0;
 	return (app);
 }
 

@@ -1,19 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw_line.c                                        :+:      :+:    :+:   */
+/*   draw_line_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: joel <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 13:23:15 by joel              #+#    #+#             */
-/*   Updated: 2025/09/02 12:38:12 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/08/16 18:11:20 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "fdf_bonus.h"
 
-static
-void	ft_pixel_put(int x, int y, t_data *data, int color)
+static void	ft_pixel_put(int x, int y, t_data *data, int color)
 {
 	char	*dst;
 
@@ -23,8 +22,7 @@ void	ft_pixel_put(int x, int y, t_data *data, int color)
 	*(unsigned int *)dst = color;
 }
 
-static
-void	handle_octants(t_math *vars, t_line *coords, int flag, int *delta)
+static void	handle_octants(t_math *vars, t_line *coords, int flag, int *delta)
 {
 	if (flag)
 	{
@@ -40,8 +38,7 @@ void	handle_octants(t_math *vars, t_line *coords, int flag, int *delta)
 	*delta *= vars->dir;
 }
 
-static
-void	draw_line_h(t_line coords, t_data *data, int color)
+static void	draw_line_h(t_line coords, t_data *data, int color)
 {
 	t_math	vars;
 	int		i;
@@ -63,8 +60,7 @@ void	draw_line_h(t_line coords, t_data *data, int color)
 	}
 }
 
-static
-void	draw_line_v(t_line coords, t_data *data, int color)
+static void	draw_line_v(t_line coords, t_data *data, int color)
 {
 	t_math	vars;
 	int		i;
@@ -94,12 +90,20 @@ void	draw_line(t_line coords, t_data *data, t_app *app)
 
 	z0 = app->map->z[coords.y0][coords.x0].z;
 	z1 = app->map->z[coords.y1][coords.x1].z;
+	z0 += get_z_increment(z0, app->transform.z);
+	z1 += get_z_increment(z1, app->transform.z);
 	color = app->map->z[coords.y0][coords.x0].color;
 	center_axis(&coords, app->map);
-	zoom(&coords, &z0, &z1, app->scale);
-	isometric(&coords.x0, &coords.y0, z0);
-	isometric(&coords.x1, &coords.y1, z1);
+	zoom(&coords, &z0, &z1, &app->transform);
+	if (app->transform.iso == TRUE)
+	{
+		isometric(&coords.x0, &coords.y0, z0);
+		isometric(&coords.x1, &coords.y1, z1);
+	}
+	rotate_x(degrees_to_rad(app->transform.angle), &coords.x0, &coords.y0, &z0);
+	rotate_x(degrees_to_rad(app->transform.angle), &coords.x1, &coords.y1, &z1);
 	center(&coords);
+	translate(&coords, &app->transform);
 	if (abs(coords.x1 - coords.x0) > abs(coords.y1 - coords.y0))
 		draw_line_h(coords, data, color);
 	else

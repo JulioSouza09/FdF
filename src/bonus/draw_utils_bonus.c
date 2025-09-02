@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw_utils.c                                       :+:      :+:    :+:   */
+/*   draw_utils_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: joel <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 18:30:00 by joel              #+#    #+#             */
-/*   Updated: 2025/09/02 12:38:44 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/08/16 18:11:58 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "fdf_bonus.h"
 
 t_line	init_coords(int x0, int y0, int x1, int y1)
 {
@@ -37,4 +37,9 @@ void	center(t_line *coords)
 	coords->y0 += WIN_HEIGHT / 2;
 	coords->x1 += WIN_WIDTH / 2;
 	coords->y1 += WIN_HEIGHT / 2;
+}
+
+double	degrees_to_rad(double degree)
+{
+	return (degree * (M_PI / 180));
 }
