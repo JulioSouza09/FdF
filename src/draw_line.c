@@ -6,7 +6,7 @@
 /*   By: joel <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 13:23:15 by joel              #+#    #+#             */
-/*   Updated: 2025/09/02 12:38:12 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/09/02 13:10:36 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void	draw_line(t_line coords, t_data *data, t_app *app)
 	isometric(&coords.x0, &coords.y0, z0);
 	isometric(&coords.x1, &coords.y1, z1);
 	center(&coords);
-	if (abs(coords.x1 - coords.x0) > abs(coords.y1 - coords.y0))
+	if (ft_abs(coords.x1 - coords.x0) > ft_abs(coords.y1 - coords.y0))
 		draw_line_h(coords, data, color);
 	else
 		draw_line_v(coords, data, color);

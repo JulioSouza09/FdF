@@ -6,7 +6,7 @@
 /*   By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 12:42:07 by jcesar-s          #+#    #+#             */
-/*   Updated: 2025/09/02 12:56:44 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/09/02 13:13:50 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,7 @@ t_point	**get_z(int fd, t_map *map);
 
 /***** Utils *****/
 int		ft_atoi_hex(char *nbr);
+int		ft_abs(int nbr);
 void	ft_swap(int *a, int *b);
 void	get_min_max(t_map *map, int *min, int *max);
 
