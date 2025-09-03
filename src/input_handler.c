@@ -6,7 +6,7 @@
 /*   By: jcesar-s <jcesar-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 16:43:49 by jcesar-s          #+#    #+#             */
-/*   Updated: 2025/08/16 18:13:33 by jcesar-s         ###   ########.fr       */
+/*   Updated: 2025/09/03 11:30:20 by jcesar-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	valid_suffix(char *filename)
 
 	open_correctly(filename);
 	result = ft_strrchr(filename, '.');
-	if (ft_strncmp(result, suffix, ft_strlen(result)) == 0)
+	if (result && ft_strncmp(result, suffix, ft_strlen(result)) == 0)
 		return (1);
 	return (0);
 }
